@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 
@@ -5,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Administrador - JobOffers Backoffice</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@500;700&family=Russo+One&display=swap"
         rel="stylesheet">
@@ -15,7 +16,7 @@
     <header>
         <div class="cabecera">
             <div class="logo">
-                <img src="logoJoboffers.png" alt="JobOffers Logo">
+                <img src="{% static 'admin/img/logoJoboffers.png' %}" alt="JobOffers Logo" />
                 <div>
                     <h1>JobOffers</h1>
                     <p class="eslogan">Cada talento cuenta</p>
@@ -190,7 +191,8 @@
     <footer>
         <div class="pie-pagina">
             <div class="info-footer">
-                <p>&copy; 2025 JobOffers. Todos los derechos reservados.</p>
+                <p>&copy; 2026 JobOffers. Todos los derechos reservados.</p>
+                <p>by Sabrina Bouragba</p>
             </div>
             <ul class="enlaces-footer">
                 <li><a href="#privacidad">Privacidad</a></li>

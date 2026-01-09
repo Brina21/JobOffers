@@ -1,5 +1,5 @@
-{# UD6.8 - Template Reportes y Estadísticas (Administrador) #} {% extends
-'core/base_admin.html' %} {% block title %}Reportes y Estadísticas - JobOffers{%endblock %}
+{# UD6.8 - Template Reportes y Estadísticas (Administrador) #} 
+{% extends 'core/base_admin.html' %} {% block title %}Reportes y Estadísticas - JobOffers{%endblock %}
 
 {% block content %}
 <h2>Reportes y Estadísticas</h2>
@@ -14,22 +14,32 @@
     </div>
     <div class="tarjeta-estadistica">
       <div class="numero">
-        {% for item in ofertas_por_estado %} {% if item.estado == 'Abierta' %}{{
-        item.total }}{% endif %} {% empty %}0{% endfor %}
+        {% for item in ofertas_por_estado %} {% if item.estado == 'Abierta' %}{{ item.total }}{% endif %} {% empty %}0{% endfor %}
       </div>
       <div class="texto">Ofertas abiertas</div>
     </div>
     <div class="tarjeta-estadistica">
       <div class="numero">
-        {% for item in inscripciones_por_estado %} {% if item.estado ==
-        'Pendiente' %}{{ item.total }}{% endif %} {% empty %}0{% endfor %}
+        {% for item in inscripciones_por_estado %} 
+          {% if item.estado == 'Pendiente' %}
+            {{ item.total }}
+          {% endif %}
+          
+          {% empty %}
+            0
+        {% endfor %}
       </div>
       <div class="texto">Inscripciones pendientes</div>
     </div>
     <div class="tarjeta-estadistica">
       <div class="numero">
-        {% for item in inscripciones_por_estado %} {% if item.estado ==
-        'Aceptada' %}{{ item.total }}{% endif %} {% empty %}0{% endfor %}
+        {% for item in inscripciones_por_estado %}
+          {% if item.estado == 'Aceptada' %}
+            {{ item.total }}
+          {% endif %}
+          
+          {% empty %} 0
+        {% endfor %}
       </div>
       <div class="texto">Inscripciones aceptadas</div>
     </div>

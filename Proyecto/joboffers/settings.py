@@ -32,12 +32,12 @@ environment_variable = os.getenv('ENVIRONMENT', 'development')
 
 if environment_variable == 'development':
     DEBUG = True
-    ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.168.18.70']
 
 
 if environment_variable == 'production':
     DEBUG = False
-    ALLOWED_HOSTS = ['prod.localhost']
+    ALLOWED_HOSTS = ['prod.localhost', '192.168.18.70']
 
 
 # Application definition
@@ -140,10 +140,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_URL = '/static/' ## Static para archivos CSS, JS, etc.
+STATIC_ROOT = BASE_DIR / 'staticfiles' # donde se recogen los archivos estáticos para producción
 STATICFILES_DIRS = [
-    BASE_DIR / 'static',
+    BASE_DIR / 'static', # donde están los archivos estáticos durante el desarrollo
 ]
 
 MEDIA_URL = '/media/'

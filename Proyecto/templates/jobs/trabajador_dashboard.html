@@ -1,10 +1,9 @@
-{# UD6.8 - Template Dashboard Trabajador #} {% extends
-'jobs/base_trabajador.html' %} {% block title %}¡Hola, {{
-trabajador.id_usuario.nombre }}! - JobOffers{% endblock %} 
+{# UD6.8 - Template Dashboard Trabajador #} 
+{% extends 'jobs/base_trabajador.html' %} 
+{% block title %}¡Hola, {{trabajador.id_usuario.nombre }}! - JobOffers{% endblock %} 
 
 {% block content %}
 <h2>¡Hola, {{ trabajador.id_usuario.nombre }}!</h2>
-
 <!-- Estadísticas del trabajador -->
 <div class="estadisticas">
   <div class="tarjeta-estadistica">
