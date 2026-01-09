@@ -122,24 +122,6 @@ PASO 9: Crear certificados SSL (PRODUCCIÓN)
 Dónde: Crear carpeta certs y generar certificados
 Por qué: Necesarios para HTTPS en producción
 
-Comando:
-
 PASO 10: Verificar carpeta secrets
 Dónde: Carpeta secrets con archivo SECRET_KEY.txt
 Por qué: Ya existe, solo verificar que tenga contenido
-
-📊 RESUMEN
-Archivos a MODIFICAR (8):
-
-docker-compose.yml - Añadir Nginx y volúmenes
-docker-compose.override.yml - Config Nginx desarrollo
-docker-compose.prod.yml - Config Nginx producción + SSL
-run_web.sh - Corregir y añadir collectstatic
-settings.py - Añadir STATIC_ROOT
-requirements.txt - Añadir gunicorn
-Archivos a CREAR (2):
-7. nginx/dev.conf - Configuración Nginx desarrollo
-8. nginx/prod.conf - Configuración Nginx producción
-
-Carpetas a CREAR (1):
-9. certs - Con certificados SSL (cert.pem, key.pem)
