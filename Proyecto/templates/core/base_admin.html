@@ -80,5 +80,29 @@
             </ul>
         </div>
     </footer>
+
+    <!-- Navegación móvil inferior (solo visible en móvil/tablet) -->
+    <nav class="nav-mobile-bottom">
+        <a href="{% url 'core:admin_dashboard' %}" {% if request.resolver_match.url_name == 'admin_dashboard' %}class="active"{% endif %}>
+            <span class="icon">🏠</span>
+            <span class="label">Inicio</span>
+        </a>
+        <a href="{% url 'core:admin_usuarios_lista' %}" {% if 'usuario' in request.resolver_match.url_name %}class="active"{% endif %}>
+            <span class="icon">👥</span>
+            <span class="label">Usuarios</span>
+        </a>
+        <a href="{% url 'core:admin_ofertas_lista' %}" {% if 'oferta' in request.resolver_match.url_name %}class="active"{% endif %}>
+            <span class="icon">💼</span>
+            <span class="label">Ofertas</span>
+        </a>
+        <a href="{% url 'core:admin_moderacion' %}" {% if request.resolver_match.url_name == 'admin_moderacion' %}class="active"{% endif %}>
+            <span class="icon">🛡️</span>
+            <span class="label">Moderar</span>
+        </a>
+        <a href="{% url 'core:admin_reportes' %}" {% if request.resolver_match.url_name == 'admin_reportes' %}class="active"{% endif %}>
+            <span class="icon">📊</span>
+            <span class="label">Reportes</span>
+        </a>
+    </nav>
 </body>
 </html>
