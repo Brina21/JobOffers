@@ -1,0 +1,100 @@
+{# UD6.8 - Template Lista de Usuarios (Administrador) #}
+{% extends 'core/base_admin.html' %}
+
+{% block title %}Gestión de Usuarios - JobOffers{% endblock %}
+
+{% block content %}
+<h2>Gestión de Usuarios</h2>
+
+<!-- Filtros y búsqueda -->
+<div class="tarjeta margen-inferior">
+    <form method="get" class="formulario-filtros">
+        <div class="flex-between">
+            <div class="campo">
+                <input type="text" name="q" placeholder="Buscar por nombre, email o DNI..." value="{{ busqueda }}">
+            </div>
+            <div class="campo">
+                <select name="tipo">
+                    <option value="">Todos los tipos</option>
+                    {% for value, label in tipos_usuario %}
+                        <option value="{{ value }}" {% if tipo_usuario == value %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="campo">
+                <select name="activo">
+                    <option value="">Todos los estados</option>
+                    <option value="true" {% if activo == 'true' %}selected{% endif %}>Activos</option>
+                    <option value="false" {% if activo == 'false' %}selected{% endif %}>Inactivos</option>
+                </select>
+            </div>
+            <button type="submit" class="boton boton-principal">Filtrar</button>
+            <a href="{% url 'core:admin_usuarios_lista' %}" class="boton boton-borde">Limpiar</a>
+        </div>
+    </form>
+</div>
+
+<!-- Lista de usuarios -->
+<div class="tarjeta">
+    {% if page_obj %}
+    <div class="tabla-responsive">
+        <table>
+            <thead>
+                <tr>
+                    <th>Email</th>
+                    <th>Nombre completo</th>
+                    <th>DNI</th>
+                    <th>Tipo</th>
+                    <th>Fecha registro</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for usuario in page_obj %}
+                <tr>
+                    <td>{{ usuario.email }}</td>
+                    <td>{{ usuario.nombre }} {{ usuario.apellidos }}</td>
+                    <td>{{ usuario.dni|default:"Sin DNI" }}</td>
+                    <td>
+                        <span class="etiqueta etiqueta-info">{{ usuario.get_tipo_usuario_display }}</span>
+                    </td>
+                    <td>{{ usuario.fecha_registro|date:"d/m/Y" }}</td>
+                    <td>
+                        {% if usuario.activo %}
+                            <span class="etiqueta etiqueta-exito">Activo</span>
+                        {% else %}
+                            <span class="etiqueta etiqueta-alerta">Inactivo</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'core:admin_usuario_detalle' usuario.id %}" class="boton boton-principal" style="padding: 0.25rem 0.75rem; font-size: 0.87rem;">Ver detalle</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <!-- Paginación -->
+    {% if page_obj.has_other_pages %}
+    <div class="paginacion">
+        {% if page_obj.has_previous %}
+            <a href="?page=1{% if busqueda %}&q={{ busqueda }}{% endif %}{% if tipo_usuario %}&tipo={{ tipo_usuario }}{% endif %}{% if activo %}&activo={{ activo }}{% endif %}" class="boton boton-borde">Primera</a>
+            <a href="?page={{ page_obj.previous_page_number }}{% if busqueda %}&q={{ busqueda }}{% endif %}{% if tipo_usuario %}&tipo={{ tipo_usuario }}{% endif %}{% if activo %}&activo={{ activo }}{% endif %}" class="boton boton-borde">Anterior</a>
+        {% endif %}
+        
+        <span class="info-pagina">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+        
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}{% if busqueda %}&q={{ busqueda }}{% endif %}{% if tipo_usuario %}&tipo={{ tipo_usuario }}{% endif %}{% if activo %}&activo={{ activo }}{% endif %}" class="boton boton-borde">Siguiente</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}{% if busqueda %}&q={{ busqueda }}{% endif %}{% if tipo_usuario %}&tipo={{ tipo_usuario }}{% endif %}{% if activo %}&activo={{ activo }}{% endif %}" class="boton boton-borde">Última</a>
+        {% endif %}
+    </div>
+    {% endif %}
+    
+    {% else %}
+    <p>No se encontraron usuarios con los filtros aplicados.</p>
+    {% endif %}
+</div>
+{% endblock %}

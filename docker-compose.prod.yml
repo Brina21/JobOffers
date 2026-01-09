@@ -1,0 +1,63 @@
+services:
+  web:
+    command: sh /scripts_docker/prod/web_wait_for_postgres.sh # espera a que postgres esté listo
+    volumes:
+      - static_volume:/code/static  # montar el volumen para archivos estáticos
+      - ./scripts_docker/prod:/scripts_docker/prod:ro # montar scripts de producción
+    environment:
+      - ENVIRONMENT=production
+      - STATIC=yes
+    secrets: # secretos a montar
+    - SECRET_KEY
+    - POSTGRES_PASSWORD
+
+  nginx:
+    ports:
+      - "80:80" # puerto para HTTP
+      - "443:443" # puerto para HTTPS
+    volumes:
+      - ./nginx/prod.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./certs/server.crt:/etc/ssl/certs/server.crt:ro
+      - ./certs/server.key:/etc/ssl/private/server.key:ro
+      - static_volume:/code/static:ro
+    depends_on:
+      - web
+
+# BD como secreto
+  db:
+    environment:
+      - POSTGRES_DB=joboffers
+      - POSTGRES_USER=admin
+    secrets:
+      - POSTGRES_PASSWORD
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+# servicio para ejecutar migraciones y recolectar estáticos en producción
+  migrate_static:
+    build: .
+    command: sh /scripts_docker/prod/web_migrate.sh # ejecuta migraciones y collectstatic
+    volumes:
+      - static_volume:/code/static  # montar el volumen para archivos estáticos
+      - ./scripts_docker/prod:/scripts_docker/prod:ro # montar scripts de producción
+    environment:
+      - MAKEMIGRATIONS=no  # NO ejecutar makemigrations en producción
+      - MIGRATE=yes        # SÍ ejecutar migrate
+      - STATIC=yes         # SÍ ejecutar collectstatic
+      - ENVIRONMENT=production
+    secrets:
+      - POSTGRES_PASSWORD
+    depends_on:
+      - db
+    networks:
+      - backend # necesita acceder a la base de datos
+
+# definición de los secretos
+secrets:
+  SECRET_KEY: # ruta al archivo que contiene el secret key django
+    file: ./secrets/SECRET_KEY.txt
+  
+  POSTGRES_PASSWORD: # ruta al archivo que tiene el password de postgresql
+    file: ./secrets/POSTGRES_PASSWORD.txt

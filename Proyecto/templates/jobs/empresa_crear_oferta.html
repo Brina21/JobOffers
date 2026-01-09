@@ -1,0 +1,142 @@
+{# UD6.8 - Template Crear Oferta (Empresa) #} {% extends
+'jobs/base_empresa.html' %} {% block title %}Crear Nueva Oferta - JobOffers{%endblock %}
+{% block content %}
+<h2>Publicar Nueva Oferta</h2>
+
+<div class="tarjeta">
+  <form method="post" action="{% url 'jobs:empresa_crear_oferta' %}">
+    {% csrf_token %}
+
+    <div class="campo">
+      <label for="titulo">Título de la oferta *</label>
+      <input
+        type="text"
+        id="titulo"
+        name="titulo"
+        required
+        placeholder="Ej: Camarero/a de Sala"
+      />
+    </div>
+
+    <div class="campo">
+      <label for="descripcion">Descripción *</label>
+      <textarea
+        id="descripcion"
+        name="descripcion"
+        rows="5"
+        required
+        placeholder="Describe los requisitos, funciones y beneficios del puesto..."
+      ></textarea>
+    </div>
+
+    <div class="campo">
+      <label for="categoria">Categoría *</label>
+      <select id="categoria" name="categoria" required>
+        <option value="">Selecciona una categoría</option>
+        {% for categoria in categorias %}
+        <option value="{{ categoria.id }}">{{ categoria.nombre }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="flex-between">
+      <div class="campo" style="flex: 1; margin-right: 1rem">
+        <label for="precio_hora">Precio por hora (€)</label>
+        <input
+          type="number"
+          step="0.01"
+          id="precio_hora"
+          name="precio_hora"
+          placeholder="Ej: 12.50"
+        />
+      </div>
+
+      <div class="campo" style="flex: 1">
+        <label for="total">Pago total (€)</label>
+        <input
+          type="number"
+          step="0.01"
+          id="total"
+          name="total"
+          placeholder="Ej: 1500.00"
+        />
+      </div>
+    </div>
+
+    <div class="flex-between">
+      <div class="campo" style="flex: 1; margin-right: 1rem">
+        <label for="tipo_contrato">Tipo de contrato</label>
+        <select id="tipo_contrato" name="tipo_contrato">
+          <option value="">Selecciona...</option>
+          <option value="Indefinido">Indefinido</option>
+          <option value="Temporal">Temporal</option>
+          <option value="Por obra o servicio">Por obra o servicio</option>
+          <option value="Prácticas">Prácticas</option>
+          <option value="Formación">Formación</option>
+        </select>
+      </div>
+
+      <div class="campo" style="flex: 1">
+        <label for="jornada">Jornada</label>
+        <select id="jornada" name="jornada">
+          <option value="">Selecciona...</option>
+          <option value="Completa">Completa</option>
+          <option value="Parcial">Parcial</option>
+          <option value="Por horas">Por horas</option>
+          <option value="Flexible">Flexible</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="campo">
+      <label for="plazas_totales">Número de plazas *</label>
+      <input
+        type="number"
+        id="plazas_totales"
+        name="plazas_totales"
+        required
+        value="1"
+        min="1"
+      />
+    </div>
+
+    <div class="campo">
+      <label for="horario">Horario</label>
+      <input
+        type="text"
+        id="horario"
+        name="horario"
+        placeholder="Ej: Lunes a Viernes 9:00-17:00"
+      />
+    </div>
+
+    <div class="flex-between">
+      <div class="campo" style="flex: 1; margin-right: 1rem">
+        <label for="fecha_evento">Fecha del evento (si aplica)</label>
+        <input type="date" id="fecha_evento" name="fecha_evento" />
+      </div>
+
+      <div class="campo" style="flex: 1">
+        <label for="fecha_cierre">Fecha de cierre de candidaturas</label>
+        <input type="date" id="fecha_cierre" name="fecha_cierre" />
+      </div>
+    </div>
+
+    <div class="campo">
+      <label>
+        <input type="checkbox" name="urgente" id="urgente" />
+        Marcar como urgente
+      </label>
+    </div>
+
+    <div class="pie-tarjeta">
+      <button type="submit" class="boton boton-principal">
+        Publicar oferta
+      </button>
+      <a href="{% url 'jobs:empresa_mis_ofertas' %}" class="boton boton-borde"
+        >Cancelar</a
+      >
+    </div>
+  </form>
+</div>
+{% endblock %}

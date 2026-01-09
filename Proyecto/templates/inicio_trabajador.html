@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Trabajador - JobOffers Backoffice</title>
+    <link rel="stylesheet" href="styles.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@500;700&family=Russo+One&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <div class="cabecera">
+            <div class="logo">
+                <img src="logoJoboffers.png" alt="JobOffers Logo">
+                <div>
+                    <h1>JobOffers</h1>
+                    <p class="eslogan">Cada talento cuenta</p>
+                </div>
+            </div>
+            <nav>
+                <ul id="mainNav">
+                    <li><a href="inicio_trabajador.html" class="active">Inicio</a></li>
+                    <li><a href="#ofertas">Ofertas</a></li>
+                    <li><a href="#contacto">Contacto</a></li>
+                    <li><a href="login.html">Cerrar sesión</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="contenedor">
+        <div class="panel">
+            <!-- Sidebar lateral -->
+            <aside class="menu-lateral">
+                <h3>Mi Panel</h3>
+                <ul>
+                    <li><a href="#dashboard" class="active">Dashboard</a></li>
+                    <li><button class="boton-desactivado" disabled>Buscar ofertas</button></li>
+                    <li><button class="boton-desactivado" disabled>Mis candidaturas</button></li>
+                    <li><button class="boton-desactivado" disabled>Ofertas guardadas</button></li>
+                    <li><button class="boton-desactivado" disabled>Mi currículum</button></li>
+                    <li><button class="boton-desactivado" disabled>Mensajes</button></li>
+                    <li><button class="boton-desactivado" disabled>Alertas de empleo</button></li>
+                    <li><button class="boton-desactivado" disabled>Mi perfil</button></li>
+                </ul>
+            </aside>
+
+            <!-- Contenido principal -->
+            <main class="contenido">
+                <h2>¡Hola, Nombre Empleado!</h2>
+
+                <!-- Estadísticas del trabajador -->
+                <div class="estadisticas">
+                    <div class="tarjeta-estadistica">
+                        <div class="numero">15</div>
+                        <div class="texto">Candidaturas enviadas</div>
+                    </div>
+                    <div class="tarjeta-estadistica">
+                        <div class="numero">7</div>
+                        <div class="texto">En proceso</div>
+                    </div>
+                    <div class="tarjeta-estadistica">
+                        <div class="numero">3</div>
+                        <div class="texto">Entrevistas pendientes</div>
+                    </div>
+                    <div class="tarjeta-estadistica">
+                        <div class="numero">23</div>
+                        <div class="texto">Ofertas guardadas</div>
+                    </div>
+                </div>
+
+                <!-- Candidaturas activas -->
+                <section>
+                    <h3>Mis candidaturas activas</h3>
+                    <div class="tarjeta">
+                        <div class="tabla-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Oferta</th>
+                                        <th>Empresa</th>
+                                        <th>Fecha candidatura</th>
+                                        <th>Estado</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Camarero/a de Sala</td>
+                                        <td>Hotel Gran Vía Plaza</td>
+                                        <td>28/11/2025</td>
+                                        <td><span class="etiqueta etiqueta-exito">Entrevista programada</span></td>
+                                        <td>
+                                            <button class="boton boton-principal"
+                                                style="padding: 0.25rem 0.75rem; font-size: 0.87rem;" disabled>Ver
+                                                detalles</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ayudante de Cocina</td>
+                                        <td>Restaurante El Mesón</td>
+                                        <td>25/11/2025</td>
+                                        <td><span class="etiqueta etiqueta-alerta">En revisión</span></td>
+                                        <td>
+                                            <button class="boton boton-principal"
+                                                style="padding: 0.25rem 0.75rem; font-size: 0.87rem;" disabled>Ver
+                                                detalles</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Barista</td>
+                                        <td>Cafetería Central</td>
+                                        <td>23/11/2025</td>
+                                        <td><span class="etiqueta etiqueta-alerta">En revisión</span></td>
+                                        <td>
+                                            <button class="boton boton-principal"
+                                                style="padding: 0.25rem 0.75rem; font-size: 0.87rem;" disabled>Ver
+                                                detalles</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Personal de Limpieza</td>
+                                        <td>Hostal Vista Alegre</td>
+                                        <td>20/11/2025</td>
+                                        <td><span class="etiqueta etiqueta-info">Enviada</span></td>
+                                        <td>
+                                            <button class="boton boton-principal"
+                                                style="padding: 0.25rem 0.75rem; font-size: 0.87rem;" disabled>Ver
+                                                detalles</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Cocinero/a</td>
+                                        <td>Restaurante La Tradición</td>
+                                        <td>18/11/2025</td>
+                                        <td><span class="etiqueta etiqueta-error">Descartada</span></td>
+                                        <td>
+                                            <button class="boton boton-borde"
+                                                style="padding: 0.25rem 0.75rem; font-size: 0.87rem;" disabled>Ver
+                                                feedback</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Ofertas recomendadas -->
+                <section class="margen-arriba">
+                    <div class="flex-between mb-3">
+                        <h3>Ofertas recomendadas para ti</h3>
+                        <button class="boton boton-borde" disabled>Ver todas</button>
+                    </div>
+                    <div class="cuadricula cuadricula-3">
+                        <div class="tarjeta oferta-disponible available">
+                            <div class="imagen-oferta">
+                                <div class="placeholder-imagen"></div>
+                            </div>
+                            <h4>Jefe/a de Sala</h4>
+                            <p><strong>Empresa:</strong> Restaurante Gourmet BCN</p>
+                            <p><strong>Ubicación:</strong> Barcelona (Presencial)</p>
+                            <p><strong>Salario:</strong> 1.800 - 2.200 €/mes + propinas</p>
+                            <span class="etiqueta etiqueta-exito">Plazas disponibles</span>
+                            <div class="pie-tarjeta">
+                                <button class="boton boton-principal" disabled>Candidarme</button>
+                                <button class="boton boton-borde" disabled>Guardar</button>
+                            </div>
+                        </div>
+
+                        <div class="tarjeta oferta-disponible available">
+                            <div class="imagen-oferta">
+                                <div class="placeholder-imagen"></div>
+                            </div>
+                            <h4>Cocinero/a con experiencia</h4>
+                            <p><strong>Empresa:</strong> Hotel Boutique Centro</p>
+                            <p><strong>Ubicación:</strong> Madrid (Presencial)</p>
+                            <p><strong>Salario:</strong> 1.700 - 2.300 €/mes</p>
+                            <span class="etiqueta etiqueta-exito">Plazas disponibles</span>
+                            <div class="pie-tarjeta">
+                                <button class="boton boton-principal" disabled>Candidarme</button>
+                                <button class="boton boton-borde" disabled>Guardar</button>
+                            </div>
+                        </div>
+
+                        <div class="tarjeta oferta-disponible available">
+                            <div class="imagen-oferta">
+                                <div class="placeholder-imagen"></div>
+                            </div>
+                            <h4>Camarero/a de Barra</h4>
+                            <p><strong>Empresa:</strong> Cafetería La Plaza</p>
+                            <p><strong>Ubicación:</strong> Valencia (Presencial)</p>
+                            <p><strong>Salario:</strong> 1.400 - 1.700 €/mes + propinas</p>
+                            <span class="etiqueta etiqueta-exito">Plazas disponibles</span>
+                            <div class="pie-tarjeta">
+                                <button class="boton boton-principal" disabled>Candidarme</button>
+                                <button class="boton boton-borde" disabled>Guardar</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <footer>
+        <div class="pie-pagina">
+            <div class="info-footer">
+                <p>&copy; 2025 JobOffers. Todos los derechos reservados.</p>
+                <p><small>Panel de Trabajador</small></p>
+            </div>
+            <ul class="enlaces-footer">
+                <li><a href="#privacidad">Privacidad</a></li>
+                <li><a href="#terminos">Términos de uso</a></li>
+                <li><a href="#soporte">Soporte</a></li>
+                <li><a href="#ayuda">Centro de ayuda</a></li>
+            </ul>
+            <div class="redes-sociales">
+                <a href="#" title="LinkedIn">in</a>
+                <a href="#" title="Twitter">X</a>
+                <a href="#" title="Facebook">f</a>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

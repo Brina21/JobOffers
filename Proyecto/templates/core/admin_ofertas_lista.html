@@ -1,0 +1,100 @@
+{# UD6.8 - Template Lista de Ofertas (Administrador) #}
+{% extends 'core/base_admin.html' %}
+
+{% block title %}Gestión de Ofertas - JobOffers{% endblock %}
+
+{% block content %}
+<h2>Gestión de Ofertas</h2>
+
+<!-- Filtros y búsqueda -->
+<div class="tarjeta margen-inferior">
+    <form method="get" class="formulario-filtros">
+        <div class="flex-between">
+            <div class="campo">
+                <input type="text" name="q" placeholder="Buscar por título, descripción o empresa..." value="{{ busqueda }}">
+            </div>
+            <div class="campo">
+                <select name="estado">
+                    <option value="">Todos los estados</option>
+                    {% for value, label in estados %}
+                        <option value="{{ value }}" {% if estado_filtro == value %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="campo">
+                <select name="categoria">
+                    <option value="">Todas las categorías</option>
+                    {% for categoria in categorias %}
+                        <option value="{{ categoria.id }}" {% if categoria_id|stringformat:"s" == categoria.id|stringformat:"s" %}selected{% endif %}>{{ categoria.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="campo">
+                <select name="urgente">
+                    <option value="">Todas</option>
+                    <option value="true" {% if urgente == 'true' %}selected{% endif %}>Solo urgentes</option>
+                </select>
+            </div>
+            <button type="submit" class="boton boton-principal">Filtrar</button>
+            <a href="{% url 'core:admin_ofertas_lista' %}" class="boton boton-borde">Limpiar</a>
+        </div>
+    </form>
+</div>
+
+<!-- Grid de ofertas -->
+{% if page_obj %}
+<div class="cuadricula cuadricula-3">
+    {% for oferta in page_obj %}
+    <div class="tarjeta {% if oferta.estado == 'Abierta' %}oferta-disponible{% else %}oferta-ocupada{% endif %}">
+        <div class="imagen-oferta">
+            <div class="placeholder-imagen"></div>
+        </div>
+        <h4>{{ oferta.titulo|truncatewords:6 }}</h4>
+        <p><strong>Empresa:</strong> {{ oferta.empresa.nombre_empresa }}</p>
+        <p><strong>Categoría:</strong> {{ oferta.categoria.nombre }}</p>
+        <p><strong>Ubicación:</strong> {{ oferta.empresa.ciudad|default:"No especificada" }}</p>
+        <p><strong>Plazas:</strong> {{ oferta.plazas_disponibles }}/{{ oferta.plazas_totales }}</p>
+        <p><strong>Publicada:</strong> {{ oferta.fecha_publicacion|date:"d/m/Y" }}</p>
+        
+        {% if oferta.estado == 'Abierta' %}
+            <span class="etiqueta etiqueta-exito">{{ oferta.estado }}</span>
+        {% elif oferta.estado == 'Cerrada' %}
+            <span class="etiqueta etiqueta-alerta">{{ oferta.estado }}</span>
+        {% else %}
+            <span class="etiqueta etiqueta-info">{{ oferta.estado }}</span>
+        {% endif %}
+        
+        {% if oferta.urgente %}
+            <span class="etiqueta etiqueta-error">Urgente</span>
+        {% endif %}
+        
+        <div class="pie-tarjeta">
+            <a href="{% url 'core:admin_oferta_detalle' oferta.id %}" class="boton boton-principal">Ver detalles</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Paginación -->
+{% if page_obj.has_other_pages %}
+<div class="paginacion margen-arriba">
+    {% if page_obj.has_previous %}
+        <a href="?page=1{% if busqueda %}&q={{ busqueda }}{% endif %}{% if estado_filtro %}&estado={{ estado_filtro }}{% endif %}{% if categoria_id %}&categoria={{ categoria_id }}{% endif %}{% if urgente %}&urgente={{ urgente }}{% endif %}" class="boton boton-borde">Primera</a>
+        <a href="?page={{ page_obj.previous_page_number }}{% if busqueda %}&q={{ busqueda }}{% endif %}{% if estado_filtro %}&estado={{ estado_filtro }}{% endif %}{% if categoria_id %}&categoria={{ categoria_id }}{% endif %}{% if urgente %}&urgente={{ urgente }}{% endif %}" class="boton boton-borde">Anterior</a>
+    {% endif %}
+    
+    <span class="info-pagina">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+    
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}{% if busqueda %}&q={{ busqueda }}{% endif %}{% if estado_filtro %}&estado={{ estado_filtro }}{% endif %}{% if categoria_id %}&categoria={{ categoria_id }}{% endif %}{% if urgente %}&urgente={{ urgente }}{% endif %}" class="boton boton-borde">Siguiente</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}{% if busqueda %}&q={{ busqueda }}{% endif %}{% if estado_filtro %}&estado={{ estado_filtro }}{% endif %}{% if categoria_id %}&categoria={{ categoria_id }}{% endif %}{% if urgente %}&urgente={{ urgente }}{% endif %}" class="boton boton-borde">Última</a>
+    {% endif %}
+</div>
+{% endif %}
+
+{% else %}
+<div class="tarjeta">
+    <p>No se encontraron ofertas con los filtros aplicados.</p>
+</div>
+{% endif %}
+{% endblock %}

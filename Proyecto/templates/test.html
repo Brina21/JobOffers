@@ -1,0 +1,33 @@
+{% extends 'base.html' %} 
+
+{% block title %}Test - JobOffer{% endblock %}
+
+{% block content %}
+    <h2>Búsqueda de Usuarios</h2>
+    <p>Template para testing de código - Filtrado de usuarios.</p>
+
+    <form method="get" action="">
+        <label for="busqueda">Buscar usuario:</label>
+        <input
+            type="text"
+            id="busqueda"
+            name="q"
+            value="{{ request.GET.q }}" 
+            placeholder="burcar..."
+        />
+        <button type="submit">Buscar</button>
+    </form>
+
+    {% if usuarios %}
+        <h3>Resultados:</h3>
+        <ul>
+            {% for usuario in usuarios %}
+            <li>
+                <strong>{{ usuario.nombre }} {{ usuario.apellidos}} - {{ usuario.email }} </strong>
+            </li>
+            {% endfor %}
+        </ul>
+    {% elif request.GET.q %}
+        <p>No se encontraron usuarios que tengan: "{{ request.GET.q }}"</p>
+    {% endif %}
+{% endblock %}

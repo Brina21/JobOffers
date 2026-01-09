@@ -1,0 +1,98 @@
+{# UD6.8 - Template Explorar Ofertas (Trabajador) #}
+{% extends 'jobs/base_trabajador.html' %}
+
+{% block title %}Explorar Ofertas - JobOffers{% endblock %}
+
+{% block content %}
+<h2>Explorar Ofertas</h2>
+
+<!-- Filtros y búsqueda -->
+<div class="tarjeta margen-inferior">
+    <form method="get" class="formulario-filtros">
+        <div class="flex-between">
+            <div class="campo">
+                <input type="text" name="q" placeholder="Buscar por título, descripción o empresa..." value="{{ busqueda }}">
+            </div>
+            <div class="campo">
+                <select name="categoria">
+                    <option value="">Todas las categorías</option>
+                    {% for categoria in categorias %}
+                        <option value="{{ categoria.id }}" {% if categoria_filtro|stringformat:"s" == categoria.id|stringformat:"s" %}selected{% endif %}>{{ categoria.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="campo">
+                <input type="text" name="ciudad" placeholder="Ciudad..." value="{{ ciudad_filtro }}">
+            </div>
+            <div class="campo">
+                <label>
+                    <input type="checkbox" name="urgente" value="true" {% if urgente_filtro == 'true' %}checked{% endif %}>
+                    Solo urgentes
+                </label>
+            </div>
+            <button type="submit" class="boton boton-principal">Buscar</button>
+            <a href="{% url 'jobs:trabajador_explorar_ofertas' %}" class="boton boton-borde">Limpiar</a>
+        </div>
+    </form>
+</div>
+
+<!-- Grid de ofertas -->
+{% if page_obj %}
+<div class="cuadricula cuadricula-3">
+    {% for oferta in page_obj %}
+    <div class="tarjeta oferta-disponible">
+        <div class="imagen-oferta">
+            <div class="placeholder-imagen"></div>
+        </div>
+        <h4>{{ oferta.titulo|truncatewords:6 }}</h4>
+        <p><strong>Empresa:</strong> {{ oferta.empresa.nombre_empresa }}</p>
+        <p><strong>Categoría:</strong> {{ oferta.categoria.nombre }}</p>
+        <p><strong>Ubicación:</strong> {{ oferta.empresa.ciudad|default:"No especificada" }}</p>
+        <p><strong>Salario:</strong> 
+            {% if oferta.precio_hora %}{{ oferta.precio_hora }}€/hora{% elif oferta.total %}{{ oferta.total }}€{% else %}A convenir{% endif %}
+        </p>
+        <p><strong>Plazas:</strong> {{ oferta.plazas_disponibles }} disponibles</p>
+        <p><strong>Publicada:</strong> {{ oferta.fecha_publicacion|date:"d/m/Y" }}</p>
+        
+        {% if oferta.urgente %}
+            <span class="etiqueta etiqueta-error">Urgente</span>
+        {% endif %}
+        <span class="etiqueta etiqueta-exito">Abierta</span>
+        
+        {% if oferta.id in inscripciones_ids %}
+            <span class="etiqueta etiqueta-info">Ya postulado</span>
+        {% endif %}
+        
+        <div class="pie-tarjeta">
+            <a href="{% url 'jobs:trabajador_oferta_detalle' oferta.id %}" class="boton boton-principal">Ver detalle</a>
+            {% if oferta.id not in inscripciones_ids %}
+                <a href="{% url 'jobs:trabajador_postular' oferta.id %}" class="boton boton-secundario">Postularme</a>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Paginación -->
+{% if page_obj.has_other_pages %}
+<div class="paginacion margen-arriba">
+    {% if page_obj.has_previous %}
+        <a href="?page=1{% if busqueda %}&q={{ busqueda }}{% endif %}{% if categoria_filtro %}&categoria={{ categoria_filtro }}{% endif %}{% if ciudad_filtro %}&ciudad={{ ciudad_filtro }}{% endif %}{% if urgente_filtro %}&urgente={{ urgente_filtro }}{% endif %}" class="boton boton-borde">Primera</a>
+        <a href="?page={{ page_obj.previous_page_number }}{% if busqueda %}&q={{ busqueda }}{% endif %}{% if categoria_filtro %}&categoria={{ categoria_filtro }}{% endif %}{% if ciudad_filtro %}&ciudad={{ ciudad_filtro }}{% endif %}{% if urgente_filtro %}&urgente={{ urgente_filtro }}{% endif %}" class="boton boton-borde">Anterior</a>
+    {% endif %}
+    
+    <span class="info-pagina">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+    
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}{% if busqueda %}&q={{ busqueda }}{% endif %}{% if categoria_filtro %}&categoria={{ categoria_filtro }}{% endif %}{% if ciudad_filtro %}&ciudad={{ ciudad_filtro }}{% endif %}{% if urgente_filtro %}&urgente={{ urgente_filtro }}{% endif %}" class="boton boton-borde">Siguiente</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}{% if busqueda %}&q={{ busqueda }}{% endif %}{% if categoria_filtro %}&categoria={{ categoria_filtro }}{% endif %}{% if ciudad_filtro %}&ciudad={{ ciudad_filtro }}{% endif %}{% if urgente_filtro %}&urgente={{ urgente_filtro }}{% endif %}" class="boton boton-borde">Última</a>
+    {% endif %}
+</div>
+{% endif %}
+
+{% else %}
+<div class="tarjeta">
+    <p>No se encontraron ofertas con los filtros aplicados.</p>
+</div>
+{% endif %}
+{% endblock %}

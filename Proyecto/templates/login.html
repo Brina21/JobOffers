@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - JobOffers Backoffice</title>
+    <link rel="stylesheet" href="styles.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@500;700&family=Russo+One&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <div class="cabecera">
+            <div class="logo">
+                <img src="logoJoboffers.png" alt="JobOffers Logo">
+                <div>
+                    <h1>JobOffers</h1>
+                    <p class="eslogan">Cada talento cuenta</p>
+                </div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="login.html" class="active">Inicio</a></li>
+                    <li><a href="#contacto">Contacto</a></li>
+                    <li><a href="#ayuda">Ayuda</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="zona-login">
+        <div class="tarjeta-login">
+            <!-- Logo centrado -->
+            <img src="logoJoboffers.png" alt="JobOffers Logo">
+
+            <h2>Acceso al Backoffice</h2>
+
+            <form action="#" method="post">
+                <div class="campo">
+                    <label for="email">Correo electrónico</label>
+                    <input type="email" id="email" name="email" placeholder="usuario@ejemplo.com" required>
+                </div>
+
+                <div class="campo">
+                    <label for="password">Contraseña</label>
+                    <input type="password" id="password" name="password" placeholder="••••••••" required>
+                </div>
+
+                <button type="submit" class="boton boton-principal boton-completo">Iniciar sesión</button>
+
+                <div class="enlaces-login">
+                    <a href="#recuperar">¿Olvidaste tu contraseña?</a>
+                </div>
+            </form>
+
+            <!-- Enlaces para navegación de testing -->
+            <div class="dev-links">
+                <label>Testing navigation:</label><br>
+                <a href="inicio_admin.html">Admin</a> |
+                <a href="inicio_empresa.html">Empresa</a> |
+                <a href="inicio_trabajador.html">Trabajador</a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="pie-pagina">
+            <div class="info-footer">
+                <p>&copy; 2025 JobOffers. Todos los derechos reservados.</p>
+            </div>
+            <ul class="enlaces-footer">
+                <li><a href="#privacidad">Privacidad</a></li>
+                <li><a href="#terminos">Términos de uso</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+        </div>
+    </footer>
+</body>
+
+</html>

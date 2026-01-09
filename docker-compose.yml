@@ -1,0 +1,45 @@
+
+services:
+  web:
+    build: .
+    volumes:
+      - ./Proyecto:/code # montar código del proyecto
+      - static_volume:/code/static  # montar el volumen para archivos estáticos
+    expose:
+      - "8000" # visible internamente
+    depends_on:
+      - db
+    networks:
+      - frontend # red para comunicarse con nginx
+      - backend  # red para comunicarse con la base de datos
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80" # puerto para HTTP
+    volumes:
+      - ./Proyecto/static:/code/static:ro # lee archivos estáticos desde el volumen
+      - ./nginx/dev.conf:/etc/nginx/conf.d/default.conf:ro # configuración para desarrollo (reemplaza default.conf)
+
+    depends_on:
+      - web
+    networks:
+      - frontend # red para comunicarse con web
+
+  db:
+    image: postgres:15
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - backend # red para comunicarse con web
+
+# definición de las redes
+networks:
+  frontend: # red entre nginx y web
+  backend:  # red entre web y base de datos
+
+volumes:
+  postgres_data: # volumen para datos de la base de datos en desarrollo
+  static_volume: # volumen compartido para archivos estáticos

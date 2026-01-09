@@ -1,0 +1,137 @@
+{# UD6.8 - Template Dashboard Trabajador #} {% extends
+'jobs/base_trabajador.html' %} {% block title %}¡Hola, {{
+trabajador.id_usuario.nombre }}! - JobOffers{% endblock %} 
+
+{% block content %}
+<h2>¡Hola, {{ trabajador.id_usuario.nombre }}!</h2>
+
+<!-- Estadísticas del trabajador -->
+<div class="estadisticas">
+  <div class="tarjeta-estadistica">
+    <div class="numero">{{ total_candidaturas }}</div>
+    <div class="texto">Candidaturas enviadas</div>
+  </div>
+  <div class="tarjeta-estadistica">
+    <div class="numero">{{ en_proceso }}</div>
+    <div class="texto">En proceso</div>
+  </div>
+  <div class="tarjeta-estadistica">
+    <div class="numero">{{ aceptadas }}</div>
+    <div class="texto">Aceptadas</div>
+  </div>
+  <div class="tarjeta-estadistica">
+    <div class="numero">{{ ofertas_recomendadas|length }}</div>
+    <div class="texto">Ofertas disponibles</div>
+  </div>
+</div>
+
+<!-- Candidaturas activas -->
+<section>
+  <h3>Mis candidaturas activas</h3>
+  <div class="tarjeta">
+    {% if candidaturas_activas %}
+    <div class="tabla-responsive">
+      <table>
+        <thead>
+          <tr>
+            <th>Oferta</th>
+            <th>Empresa</th>
+            <th>Fecha candidatura</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for inscripcion in candidaturas_activas %}
+          <tr>
+            <td><strong>{{ inscripcion.oferta.titulo }}</strong></td>
+            <td>{{ inscripcion.oferta.empresa.nombre_empresa }}</td>
+            <td>{{ inscripcion.fecha_inscripcion|date:"d/m/Y" }}</td>
+            <td>
+              {% if inscripcion.estado == 'Aceptada' %}
+              <span class="etiqueta etiqueta-exito"
+                >{{ inscripcion.estado }}</span
+              >
+              {% elif inscripcion.estado == 'Pendiente' %}
+              <span class="etiqueta etiqueta-alerta">En revisión</span>
+              {% else %}
+              <span class="etiqueta etiqueta-info"
+                >{{ inscripcion.estado }}</span
+              >
+              {% endif %}
+            </td>
+            <td>
+              <a
+                href="{% url 'jobs:trabajador_oferta_detalle' inscripcion.oferta.id %}"
+                class="boton boton-principal"
+                style="padding: 0.25rem 0.75rem; font-size: 0.87rem"
+                >Ver detalles</a
+              >
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <p>
+      No tienes candidaturas activas.
+      <a href="{% url 'jobs:trabajador_explorar_ofertas' %}"
+        >Explorar ofertas</a
+      >
+    </p>
+    {% endif %}
+  </div>
+</section>
+
+<!-- Ofertas recomendadas -->
+<section class="margen-arriba">
+  <div class="flex-between mb-3">
+    <h3>Ofertas recomendadas para ti</h3>
+    <a
+      href="{% url 'jobs:trabajador_explorar_ofertas' %}"
+      class="boton boton-secundario"
+      >Ver todas</a
+    >
+  </div>
+
+  {% if ofertas_recomendadas %}
+  <div class="cuadricula cuadricula-3">
+    {% for oferta in ofertas_recomendadas %}
+    <div class="tarjeta oferta-disponible">
+      <div class="imagen-oferta">
+        <div class="placeholder-imagen"></div>
+      </div>
+      <h4>{{ oferta.titulo|truncatewords:5 }}</h4>
+      <p><strong>Empresa:</strong> {{ oferta.empresa.nombre_empresa }}</p>
+      <p><strong>Categoría:</strong> {{ oferta.categoria.nombre }}</p>
+      <p>
+        <strong>Ubicación:</strong> {{ oferta.empresa.ciudad|default:"No
+        especificada" }}
+      </p>
+      <p>
+        <strong>Plazas:</strong> {{ oferta.plazas_disponibles }} disponibles
+      </p>
+
+      {% if oferta.urgente %}
+      <span class="etiqueta etiqueta-error">Urgente</span>
+      {% endif %}
+      <span class="etiqueta etiqueta-exito">Abierta</span>
+
+      <div class="pie-tarjeta">
+        <a
+          href="{% url 'jobs:trabajador_oferta_detalle' oferta.id %}"
+          class="boton boton-principal"
+          >Ver oferta</a
+        >
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="tarjeta">
+    <p>No hay ofertas disponibles en este momento.</p>
+  </div>
+  {% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,179 @@
+{# UD6.8 - Template Detalle Oferta con Candidatos (Empresa) #} {% extends
+'jobs/base_empresa.html' %} {% block title %}{{ oferta.titulo }} - Candidatos - JobOffers{% endblock %} 
+{% block content %}
+<div class="flex-between mb-3">
+  <h2>{{ oferta.titulo }}</h2>
+  <div>
+    <a
+      href="{% url 'jobs:empresa_editar_oferta' oferta.id %}"
+      class="boton boton-secundario"
+      >Editar oferta</a
+    >
+    <a href="{% url 'jobs:empresa_mis_ofertas' %}" class="boton boton-borde"
+      >Volver a mis ofertas</a
+    >
+  </div>
+</div>
+
+<!-- Información de la oferta -->
+<div class="tarjeta margen-inferior">
+  <div class="flex-between">
+    <div>
+      <p><strong>Categoría:</strong> {{ oferta.categoria.nombre }}</p>
+      <p>
+        <strong>Estado:</strong>
+        {% if oferta.estado == 'Abierta' %}
+        <span class="etiqueta etiqueta-exito">{{ oferta.estado }}</span>
+        {% elif oferta.estado == 'Cerrada' %}
+        <span class="etiqueta etiqueta-alerta">{{ oferta.estado }}</span>
+        {% else %}
+        <span class="etiqueta etiqueta-info">{{ oferta.estado }}</span>
+        {% endif %}
+      </p>
+      <p>
+        <strong>Plazas:</strong> {{ oferta.plazas_disponibles }} disponibles de
+        {{ oferta.plazas_totales }}
+      </p>
+    </div>
+    <div>
+      <p>
+        <strong>Publicada:</strong> {{ oferta.fecha_publicacion|date:"d/m/Y" }}
+      </p>
+      {% if oferta.fecha_cierre %}
+      <p><strong>Cierre:</strong> {{ oferta.fecha_cierre|date:"d/m/Y" }}</p>
+      {% endif %} {% if oferta.urgente %}
+      <p><span class="etiqueta etiqueta-error">Urgente</span></p>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="margen-arriba">
+    <h4>Descripción</h4>
+    <p>{{ oferta.descripcion }}</p>
+  </div>
+
+  {% if oferta.horario %}
+  <p><strong>Horario:</strong> {{ oferta.horario }}</p>
+  {% endif %} {% if oferta.tipo_contrato %}
+  <p><strong>Tipo de contrato:</strong> {{ oferta.tipo_contrato }}</p>
+  {% endif %} {% if oferta.jornada %}
+  <p><strong>Jornada:</strong> {{ oferta.jornada }}</p>
+  {% endif %}
+</div>
+
+<!-- Estadísticas de candidaturas -->
+<div class="estadisticas">
+  <div class="tarjeta-estadistica">
+    <div class="numero">{{ total_inscripciones }}</div>
+    <div class="texto">Total candidaturas</div>
+  </div>
+  <div class="tarjeta-estadistica">
+    <div class="numero">{{ pendientes }}</div>
+    <div class="texto">Pendientes de revisar</div>
+  </div>
+  <div class="tarjeta-estadistica">
+    <div class="numero">{{ aceptadas }}</div>
+    <div class="texto">Aceptadas</div>
+  </div>
+  <div class="tarjeta-estadistica">
+    <div class="numero">{{ rechazadas }}</div>
+    <div class="texto">Rechazadas</div>
+  </div>
+</div>
+
+<!-- Lista de candidatos -->
+<section class="margen-arriba">
+  <h3>Candidatos</h3>
+  <div class="tarjeta">
+    {% if inscripciones %}
+    <div class="tabla-responsive">
+      <table>
+        <thead>
+          <tr>
+            <th>Candidato</th>
+            <th>Email</th>
+            <th>Teléfono</th>
+            <th>Ciudad</th>
+            <th>Fecha candidatura</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for inscripcion in inscripciones %}
+          <tr>
+            <td>
+              <strong
+                >{{ inscripcion.trabajador.id_usuario.nombre }} {{
+                inscripcion.trabajador.id_usuario.apellidos }}</strong
+              >
+            </td>
+            <td>{{ inscripcion.trabajador.id_usuario.email }}</td>
+            <td>
+              {{ inscripcion.trabajador.id_usuario.telefono|default:"Sin
+              teléfono" }}
+            </td>
+            <td>{{ inscripcion.trabajador.ciudad|default:"Sin ciudad" }}</td>
+            <td>{{ inscripcion.fecha_inscripcion|date:"d/m/Y H:i" }}</td>
+            <td>
+              {% if inscripcion.estado == 'Pendiente' %}
+              <span class="etiqueta etiqueta-alerta"
+                >{{ inscripcion.estado }}</span
+              >
+              {% elif inscripcion.estado == 'Aceptada' %}
+              <span class="etiqueta etiqueta-exito"
+                >{{ inscripcion.estado }}</span
+              >
+              {% else %}
+              <span class="etiqueta etiqueta-error"
+                >{{ inscripcion.estado }}</span
+              >
+              {% endif %}
+            </td>
+            <td>
+              {% if inscripcion.estado == 'Pendiente' %}
+              <form
+                method="post"
+                action="{% url 'jobs:empresa_gestionar_inscripcion' inscripcion.id %}"
+                style="display: inline"
+              >
+                {% csrf_token %}
+                <input type="hidden" name="accion" value="aceptar" />
+                <button
+                  type="submit"
+                  class="boton boton-principal"
+                  style="padding: 0.25rem 0.75rem; font-size: 0.87rem"
+                >
+                  Aceptar
+                </button>
+              </form>
+              <form
+                method="post"
+                action="{% url 'jobs:empresa_gestionar_inscripcion' inscripcion.id %}"
+                style="display: inline"
+              >
+                {% csrf_token %}
+                <input type="hidden" name="accion" value="rechazar" />
+                <button
+                  type="submit"
+                  class="boton boton-borde"
+                  style="padding: 0.25rem 0.75rem; font-size: 0.87rem"
+                >
+                  Rechazar
+                </button>
+              </form>
+              {% else %}
+              <span style="color: #999">{{ inscripcion.estado }}</span>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <p>Aún no hay candidatos para esta oferta.</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

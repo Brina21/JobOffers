@@ -1,0 +1,77 @@
+{# UD6.8 - Template base para Empresa #}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Dashboard Empresa - JobOffers{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@500;700&family=Russo+One&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="cabecera">
+            <div class="logo">
+                <img src="{% url 'index' %}logoJoboffers.png" alt="JobOffers Logo">
+                <div>
+                    <h1>JobOffers</h1>
+                    <p class="eslogan">Cada talento cuenta</p>
+                </div>
+            </div>
+            <nav>
+                <ul id="mainNav">
+                    <li><a href="{% url 'jobs:empresa_dashboard' %}" {% if request.resolver_match.url_name == 'empresa_dashboard' %}class="active"{% endif %}>Inicio</a></li>
+                    <li><a href="{% url 'jobs:empresa_mis_ofertas' %}" {% if 'ofertas' in request.resolver_match.url_name %}class="active"{% endif %}>Mis Ofertas</a></li>
+                    <li><a href="{% url 'jobs:empresa_crear_oferta' %}">Nueva Oferta</a></li>
+                    <li><a href="#logout">Cerrar sesión</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="contenedor">
+        <div class="panel">
+            <!-- Sidebar lateral -->
+            <aside class="menu-lateral">
+                <h3>Panel Empresa</h3>
+                <p style="font-size: 0.9rem; color: #666; margin-bottom: 1rem;">{{ empresa.nombre_empresa }}</p>
+                <ul>
+                    <li><a href="{% url 'jobs:empresa_dashboard' %}" {% if request.resolver_match.url_name == 'empresa_dashboard' %}class="active"{% endif %}>Dashboard</a></li>
+                    <li><a href="{% url 'jobs:empresa_mis_ofertas' %}" {% if request.resolver_match.url_name == 'empresa_mis_ofertas' %}class="active"{% endif %}>Mis ofertas</a></li>
+                    <li><a href="{% url 'jobs:empresa_crear_oferta' %}" {% if request.resolver_match.url_name == 'empresa_crear_oferta' %}class="active"{% endif %}>Publicar oferta</a></li>
+                </ul>
+            </aside>
+
+            <!-- Contenido principal -->
+            <main class="contenido">
+                {% if messages %}
+                    <div class="mensajes">
+                        {% for message in messages %}
+                            <div class="mensaje mensaje-{{ message.tags }}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                {% block content %}
+                {% endblock %}
+            </main>
+        </div>
+    </div>
+
+    <footer>
+        <div class="pie-pagina">
+            <div class="info-footer">
+                <p>&copy; 2025 JobOffers. Todos los derechos reservados.</p>
+            </div>
+            <ul class="enlaces-footer">
+                <li><a href="#privacidad">Privacidad</a></li>
+                <li><a href="#terminos">Términos de uso</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+        </div>
+    </footer>
+</body>
+</html>

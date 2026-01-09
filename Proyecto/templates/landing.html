@@ -1,0 +1,344 @@
+{# UD6.8 - Landing page con acceso a todos los paneles #}
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JobOffers - Plataforma de Empleo</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@500;700&family=Russo+One&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      .hero {
+        text-align: center;
+        padding: 4rem 2rem;
+        background: linear-gradient(135deg, #2477dc 0%, #1b5daf 100%);
+        color: white;
+        margin-bottom: 3rem;
+      }
+      .hero h1 {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        color: white;
+      }
+      .hero p {
+        font-size: 1.3rem;
+        margin-bottom: 2rem;
+        color: rgba(255, 255, 255, 0.9);
+      }
+      .stats {
+        display: flex;
+        justify-content: center;
+        gap: 3rem;
+        margin-top: 2rem;
+      }
+      .stat-item {
+        text-align: center;
+      }
+      .stat-item .number {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #89b62e;
+      }
+      .stat-item .label {
+        font-size: 1rem;
+        color: rgba(255, 255, 255, 0.8);
+      }
+      .access-panels {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+      .panels-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 2rem;
+        margin-bottom: 3rem;
+      }
+      .panel-card {
+        background: white;
+        border-radius: 16px;
+        padding: 2.5rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        transition: transform 0.3s, box-shadow 0.3s;
+      }
+      .panel-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+      }
+      .panel-card .icon {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+      }
+      .panel-card h3 {
+        color: #1e293b;
+        margin-bottom: 1rem;
+      }
+      .panel-card p {
+        color: #64748b;
+        margin-bottom: 1.5rem;
+        font-size: 0.95rem;
+      }
+      .panel-card .boton {
+        display: inline-block;
+        width: auto;
+      }
+      .quick-links {
+        background: #f9fafb;
+        padding: 2rem;
+        border-radius: 12px;
+        margin-bottom: 2rem;
+      }
+      .quick-links h3 {
+        text-align: center;
+        margin-bottom: 1.5rem;
+        color: #1e293b;
+      }
+      .links-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+      }
+      .quick-link {
+        padding: 1rem;
+        background: white;
+        border-radius: 8px;
+        text-align: center;
+        transition: background 0.3s;
+      }
+      .quick-link:hover {
+        background: #eff6ff;
+      }
+      .quick-link a {
+        text-decoration: none;
+        color: #2477dc;
+        font-weight: 500;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="cabecera">
+        <div class="logo">
+          <img src="{% static 'admin/img/logoJoboffers.png' %}" alt="JobOffers Logo" />
+          <div>
+            <h1>JobOffers</h1>
+            <p class="eslogan">Cada talento cuenta</p>
+          </div>
+        </div>
+        <nav>
+          <ul>
+            <li><a href="{% url 'index' %}" class="active">Inicio</a></li>
+            <li><a href="{% url 'admin:index' %}">Admin Django</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <h1>Bienvenido a JobOffers</h1>
+      <p>Conectamos talento con oportunidades laborales</p>
+      <div class="stats">
+        <div class="stat-item">
+          <div class="number">{{ total_ofertas }}</div>
+          <div class="label">Ofertas activas</div>
+        </div>
+        <div class="stat-item">
+          <div class="number">{{ total_empresas }}</div>
+          <div class="label">Empresas registradas</div>
+        </div>
+        <div class="stat-item">
+          <div class="number">{{ total_trabajadores }}</div>
+          <div class="label">Trabajadores</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Access Panels -->
+    <section class="access-panels">
+      <h2 style="text-align: center; margin-bottom: 2rem; color: #1e293b">
+        Acceso a Paneles
+      </h2>
+
+      <div class="panels-grid">
+        <!-- Panel Administrador -->
+        <div class="panel-card">
+          <div class="icon">👨‍💼</div>
+          <h3>Panel Administrador</h3>
+          <p>
+            Gestiona usuarios, ofertas, moderación y estadísticas del sistema
+          </p>
+          <a
+            href="{% url 'core:admin_dashboard' %}"
+            class="boton boton-principal"
+            >Acceder al Panel Admin</a
+          >
+        </div>
+
+        <!-- Panel Empresa -->
+        <div class="panel-card">
+          <div class="icon">🏢</div>
+          <h3>Panel Empresa</h3>
+          <p>Publica ofertas de empleo y gestiona candidatos para tu empresa</p>
+          <a
+            href="{% url 'jobs:empresa_dashboard' %}"
+            class="boton boton-principal"
+            >Acceder al Panel Empresa</a
+          >
+        </div>
+
+        <!-- Panel Trabajador -->
+        <div class="panel-card">
+          <div class="icon">👤</div>
+          <h3>Panel Trabajador</h3>
+          <p>
+            Explora ofertas y postúlate a las oportunidades que más te interesen
+          </p>
+          <a
+            href="{% url 'jobs:trabajador_dashboard' %}"
+            class="boton boton-principal"
+            >Acceder al Panel Trabajador</a
+          >
+        </div>
+      </div>
+
+      <!-- Quick Links -->
+      <div class="quick-links">
+        <h3>📋 Enlaces Rápidos - Acceso Directo</h3>
+        <div class="links-grid">
+          <!-- Administrador -->
+          <div class="quick-link">
+            <a href="{% url 'core:admin_dashboard' %}">🏠 Dashboard Admin</a>
+          </div>
+          <div class="quick-link">
+            <a href="{% url 'core:admin_usuarios_lista' %}"
+              >👥 Gestión Usuarios</a
+            >
+          </div>
+          <div class="quick-link">
+            <a href="{% url 'core:admin_ofertas_lista' %}"
+              >📋 Gestión Ofertas</a
+            >
+          </div>
+          <div class="quick-link">
+            <a href="{% url 'core:admin_moderacion' %}">🚫 Moderación</a>
+          </div>
+          <div class="quick-link">
+            <a href="{% url 'core:admin_reportes' %}">📊 Reportes</a>
+          </div>
+
+          <!-- Empresa -->
+          <div class="quick-link">
+            <a href="{% url 'jobs:empresa_dashboard' %}"
+              >🏠 Dashboard Empresa</a
+            >
+          </div>
+          <div class="quick-link">
+            <a href="{% url 'jobs:empresa_mis_ofertas' %}">📋 Mis Ofertas</a>
+          </div>
+          <div class="quick-link">
+            <a href="{% url 'jobs:empresa_crear_oferta' %}">➕ Crear Oferta</a>
+          </div>
+
+          <!-- Trabajador -->
+          <div class="quick-link">
+            <a href="{% url 'jobs:trabajador_dashboard' %}"
+              >🏠 Dashboard Trabajador</a
+            >
+          </div>
+          <div class="quick-link">
+            <a href="{% url 'jobs:trabajador_explorar_ofertas' %}"
+              >🔍 Explorar Ofertas</a
+            >
+          </div>
+          <div class="quick-link">
+            <a href="{% url 'jobs:trabajador_mis_candidaturas' %}"
+              >📄 Mis Candidaturas</a
+            >
+          </div>
+
+          <!-- Admin Django -->
+          <div class="quick-link">
+            <a href="{% url 'admin:index' %}">⚙️ Django Admin</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Información adicional -->
+      <div class="tarjeta" style="margin-top: 2rem; padding: 2rem">
+        <h3 style="margin-bottom: 1rem">ℹ️ Información del Sistema</h3>
+        <div
+          style="
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+          "
+        >
+          <div>
+            <h4>👨‍💼 Administrador</h4>
+            <ul style="color: #64748b; font-size: 0.9rem">
+              <li>Gestión completa de usuarios</li>
+              <li>Control de ofertas y empresas</li>
+              <li>Moderación de trabajadores</li>
+              <li>Reportes y estadísticas</li>
+            </ul>
+          </div>
+          <div>
+            <h4>🏢 Empresa</h4>
+            <ul style="color: #64748b; font-size: 0.9rem">
+              <li>Publicar ofertas de empleo</li>
+              <li>Gestionar candidatos</li>
+              <li>Aceptar/rechazar postulaciones</li>
+              <li>Ver estadísticas propias</li>
+            </ul>
+          </div>
+          <div>
+            <h4>👤 Trabajador</h4>
+            <ul style="color: #64748b; font-size: 0.9rem">
+              <li>Explorar ofertas disponibles</li>
+              <li>Postular a ofertas</li>
+              <li>Seguimiento de candidaturas</li>
+              <li>Ver estado de postulaciones</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Nota de desarrollo -->
+      <div
+        style="
+          margin-top: 2rem;
+          padding: 1.5rem;
+          background: #fef3c7;
+          border-radius: 8px;
+          border-left: 4px solid #f59e0b;
+        "
+      >
+        <p style="margin: 0; color: #92400e">
+          <strong>🔧 Nota de desarrollo:</strong> Esta es la página de acceso de
+          desarrollo. En producción, los usuarios accederán directamente a su
+          panel según su rol después del login. Las vistas están configuradas
+          para usar el primer registro de cada tipo como usuario temporal.
+        </p>
+      </div>
+    </section>
+
+    <footer>
+      <div class="pie-pagina">
+        <div class="info-footer">
+          <p>&copy; 2025 JobOffers. Todos los derechos reservados.</p>
+        </div>
+        <ul class="enlaces-footer">
+          <li><a href="#privacidad">Privacidad</a></li>
+          <li><a href="#terminos">Términos de uso</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+      </div>
+    </footer>
+  </body>
+</html>

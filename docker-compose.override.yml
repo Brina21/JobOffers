@@ -1,0 +1,40 @@
+services:
+  web:
+    command: sh /scripts_docker/dev/web_wait_for_postgres.sh # espera a que postgres esté listo
+    volumes:
+      - ./Proyecto:/code # montar código del proyecto
+      - static_volume:/code/static  # montar el volumen para archivos estáticos
+      - ./scripts_docker/dev:/scripts_docker/dev:ro # montar scripts de desarrollo
+    environment:
+      - ENVIRONMENT=development
+
+# servicio nginx para desarrollo
+  nginx:
+    ports:
+      - "80:80" # puerto para HTTP
+    volumes:
+      - ./nginx/dev.conf:/etc/nginx/conf.d/default.conf:ro # configuración para desarrollo (reemplaza default.conf)
+
+# BD como variable de entorno
+  db:
+    environment:
+      - POSTGRES_DB=joboffers
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+
+# servicio para ejecutar migraciones y recolectar estáticos
+  migrate_static:
+    build: .
+    command: sh /scripts_docker/dev/web_migrate.sh # ejecuta migraciones y collectstatic
+    volumes:
+      - ./Proyecto:/code # montar código del proyecto
+      - ./scripts_docker/dev:/scripts_docker/dev:ro # montar scripts de desarrollo
+    environment:
+      - MAKEMIGRATIONS=yes # ejecutar makemigrations en desarrollo
+      - MIGRATE=yes        # ejecutar migrate
+      - STATIC=yes         # ejecutar collectstatic
+      - ENVIRONMENT=development
+    depends_on:
+      - db
+    networks:
+      - backend # necesita acceder a la base de datos

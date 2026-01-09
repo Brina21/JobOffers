@@ -1,0 +1,211 @@
+{# UD6.8 - Template Dashboard Administrador #} {% extends 'core/base_admin.html'
+%} {% block title %}Panel de Administración - JobOffers{% endblock %}
+{% block content %}
+<h2>Panel de Administración</h2>
+
+<!-- Estadísticas principales -->
+<div class="estadisticas">
+  <div class="tarjeta-estadistica">
+    <div class="numero">{{ ofertas_activas }}</div>
+    <div class="texto">Ofertas activas</div>
+  </div>
+  <div class="tarjeta-estadistica">
+    <div class="numero">{{ total_empresas }}</div>
+    <div class="texto">Empresas registradas</div>
+  </div>
+  <div class="tarjeta-estadistica">
+    <div class="numero">{{ total_trabajadores }}</div>
+    <div class="texto">Trabajadores</div>
+  </div>
+  <div class="tarjeta-estadistica">
+    <div class="numero">{{ total_inscripciones }}</div>
+    <div class="texto">Candidaturas</div>
+  </div>
+</div>
+
+<!-- Ofertas recientes -->
+<section>
+  <div class="flex-between mb-3">
+    <h3>Ofertas de empleo recientes</h3>
+    <a
+      href="{% url 'core:admin_ofertas_lista' %}"
+      class="boton boton-secundario"
+      >Ver todas</a
+    >
+  </div>
+
+  {% if ofertas_recientes %}
+  <div class="cuadricula cuadricula-3">
+    {% for oferta in ofertas_recientes|slice:":6" %}
+    <div
+      class="tarjeta {% if oferta.estado == 'Abierta' %}oferta-disponible{% else %}oferta-ocupada{% endif %}"
+    >
+      <div class="imagen-oferta">
+        <div class="placeholder-imagen"></div>
+      </div>
+      <h4>{{ oferta.titulo|truncatewords:5 }}</h4>
+      <p><strong>Empresa:</strong> {{ oferta.empresa.nombre_empresa }}</p>
+      <p><strong>Categoría:</strong> {{ oferta.categoria.nombre }}</p>
+      <p>
+        <strong>Salario:</strong>
+        {% if oferta.precio_hora %} {{ oferta.precio_hora }}€/hora {% elif
+        oferta.total %} {{ oferta.total }}€ {% else %} A convenir {% endif %}
+      </p>
+      <p>
+        <strong>Plazas:</strong> {{ oferta.plazas_disponibles }}/{{
+        oferta.plazas_totales }}
+      </p>
+
+      {% if oferta.estado == 'Abierta' %}
+      <span class="etiqueta etiqueta-exito"
+        >{{ oferta.plazas_disponibles }} Plazas disponibles</span
+      >
+      {% else %}
+      <span class="etiqueta etiqueta-alerta">{{ oferta.estado }}</span>
+      {% endif %} {% if oferta.urgente %}
+      <span class="etiqueta etiqueta-error">Urgente</span>
+      {% endif %}
+
+      <div class="pie-tarjeta">
+        <a
+          href="{% url 'core:admin_oferta_detalle' oferta.id %}"
+          class="boton boton-principal"
+          >Ver detalles</a
+        >
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="tarjeta">
+    <p>No hay ofertas recientes.</p>
+  </div>
+  {% endif %}
+</section>
+
+<!-- Actividad reciente -->
+<section class="margen-arriba">
+  <h3>Actividad reciente</h3>
+  <div class="tarjeta">
+    {% if actividad_reciente %}
+    <div class="tabla-responsive">
+      <table>
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Trabajador</th>
+            <th>Acción</th>
+            <th>Oferta</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for inscripcion in actividad_reciente %}
+          <tr>
+            <td>{{ inscripcion.fecha_inscripcion|date:"d/m/Y H:i" }}</td>
+            <td>
+              {{ inscripcion.trabajador.id_usuario.nombre }} {{
+              inscripcion.trabajador.id_usuario.apellidos }}
+            </td>
+            <td>Nueva candidatura</td>
+            <td>{{ inscripcion.oferta.titulo|truncatewords:5 }}</td>
+            <td>
+              {% if inscripcion.estado == 'Pendiente' %}
+              <span class="etiqueta etiqueta-info"
+                >{{ inscripcion.estado }}</span
+              >
+              {% elif inscripcion.estado == 'Aceptada' %}
+              <span class="etiqueta etiqueta-exito"
+                >{{ inscripcion.estado }}</span
+              >
+              {% else %}
+              <span class="etiqueta etiqueta-error"
+                >{{ inscripcion.estado }}</span
+              >
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <p>No hay actividad reciente.</p>
+    {% endif %}
+  </div>
+</section>
+
+<!-- Resumen rápido -->
+<section class="margen-arriba">
+  <h3>Resumen rápido</h3>
+  <div class="cuadricula cuadricula-2">
+    <div class="tarjeta">
+      <h4>Inscripciones pendientes</h4>
+      <div class="numero">{{ inscripciones_pendientes }}</div>
+      <p>Candidaturas esperando revisión</p>
+      <a
+        href="{% url 'core:admin_ofertas_lista' %}?estado=Abierta"
+        class="boton boton-borde"
+        >Ver ofertas abiertas</a
+      >
+    </div>
+
+    <div class="tarjeta">
+      <h4>Trabajadores bloqueados</h4>
+      <div class="numero">{{ trabajadores_bloqueados }}</div>
+      <p>Usuarios con restricciones activas</p>
+      <a href="{% url 'core:admin_moderacion' %}" class="boton boton-borde"
+        >Ir a moderación</a
+      >
+    </div>
+  </div>
+</section>
+
+<!-- Usuarios recientes -->
+<section class="margen-arriba">
+  <div class="flex-between mb-3">
+    <h3>Usuarios registrados recientemente</h3>
+    <a
+      href="{% url 'core:admin_usuarios_lista' %}"
+      class="boton boton-secundario"
+      >Ver todos</a
+    >
+  </div>
+  <div class="tarjeta">
+    {% if usuarios_recientes %}
+    <div class="tabla-responsive">
+      <table>
+        <thead>
+          <tr>
+            <th>Email</th>
+            <th>Nombre</th>
+            <th>Tipo</th>
+            <th>Fecha registro</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for usuario in usuarios_recientes %}
+          <tr>
+            <td>{{ usuario.email }}</td>
+            <td>{{ usuario.nombre }} {{ usuario.apellidos }}</td>
+            <td>{{ usuario.get_tipo_usuario_display }}</td>
+            <td>{{ usuario.fecha_registro|date:"d/m/Y H:i" }}</td>
+            <td>
+              {% if usuario.activo %}
+              <span class="etiqueta etiqueta-exito">Activo</span>
+              {% else %}
+              <span class="etiqueta etiqueta-alerta">Inactivo</span>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <p>No hay usuarios registrados recientemente.</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

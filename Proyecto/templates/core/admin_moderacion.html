@@ -1,0 +1,174 @@
+{# UD6.8 - Template Moderación (Administrador) #} {% extends
+'core/base_admin.html' %} {% block title %}Moderación - JobOffers{% endblock %}
+{% block content %}
+<h2>Panel de Moderación</h2>
+
+<!-- Trabajadores bloqueados -->
+<section>
+  <h3>Trabajadores bloqueados</h3>
+  <div class="tarjeta">
+    {% if trabajadores_bloqueados %}
+    <div class="tabla-responsive">
+      <table>
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Cancelaciones</th>
+            <th>Motivo bloqueo</th>
+            <th>Fecha fin bloqueo</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for trabajador in trabajadores_bloqueados %}
+          <tr>
+            <td>
+              {{ trabajador.id_usuario.nombre }} {{
+              trabajador.id_usuario.apellidos }}
+            </td>
+            <td>{{ trabajador.id_usuario.email }}</td>
+            <td>
+              <span class="etiqueta etiqueta-error"
+                >{{ trabajador.cancelaciones_totales }}</span
+              >
+            </td>
+            <td>
+              {{ trabajador.motivo_bloqueo|default:"Sin motivo
+              especificado"|truncatewords:10 }}
+            </td>
+            <td>
+              {% if trabajador.fecha_fin_bloqueo %} {{
+              trabajador.fecha_fin_bloqueo|date:"d/m/Y" }} {% else %}
+              <span class="etiqueta etiqueta-alerta">Indefinido</span>
+              {% endif %}
+            </td>
+            <td>
+              <a
+                href="{% url 'core:admin_usuario_detalle' trabajador.id_usuario.id %}"
+                class="boton boton-principal"
+                style="padding: 0.25rem 0.75rem; font-size: 0.87rem"
+                >Ver detalle</a
+              >
+              <form
+                method="post"
+                action="{% url 'core:admin_toggle_bloqueo' trabajador.id_usuario.id %}"
+                style="display: inline"
+              >
+                {% csrf_token %}
+                <button
+                  type="submit"
+                  class="boton boton-secundario"
+                  style="padding: 0.25rem 0.75rem; font-size: 0.87rem"
+                >
+                  Desbloquear
+                </button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <p>No hay trabajadores bloqueados actualmente.</p>
+    {% endif %}
+  </div>
+</section>
+
+<!-- Trabajadores con más cancelaciones -->
+<section class="margen-arriba">
+  <h3>Trabajadores con más cancelaciones</h3>
+  <div class="tarjeta">
+    {% if trabajadores_cancelaciones %}
+    <div class="tabla-responsive">
+      <table>
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Cancelaciones totales</th>
+            <th>Valoración media</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for trabajador in trabajadores_cancelaciones %}
+          <tr>
+            <td>
+              {{ trabajador.id_usuario.nombre }} {{
+              trabajador.id_usuario.apellidos }}
+            </td>
+            <td>{{ trabajador.id_usuario.email }}</td>
+            <td>
+              <span class="etiqueta etiqueta-alerta"
+                >{{ trabajador.cancelaciones_totales }}</span
+              >
+            </td>
+            <td>{{ trabajador.valoracion_media|floatformat:1 }}/5.0</td>
+            <td>
+              {% if trabajador.bloqueado %}
+              <span class="etiqueta etiqueta-error">Bloqueado</span>
+              {% else %}
+              <span class="etiqueta etiqueta-exito">Activo</span>
+              {% endif %}
+            </td>
+            <td>
+              <a
+                href="{% url 'core:admin_usuario_detalle' trabajador.id_usuario.id %}"
+                class="boton boton-principal"
+                style="padding: 0.25rem 0.75rem; font-size: 0.87rem"
+                >Ver detalle</a
+              >
+              {% if not trabajador.bloqueado %}
+              <form
+                method="post"
+                action="{% url 'core:admin_toggle_bloqueo' trabajador.id_usuario.id %}"
+                style="display: inline"
+              >
+                {% csrf_token %}
+                <input
+                  type="hidden"
+                  name="motivo"
+                  value="Exceso de cancelaciones"
+                />
+                <button
+                  type="submit"
+                  class="boton boton-borde"
+                  style="padding: 0.25rem 0.75rem; font-size: 0.87rem"
+                >
+                  Bloquear
+                </button>
+              </form>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <p>No hay trabajadores con cancelaciones registradas.</p>
+    {% endif %}
+  </div>
+</section>
+
+<!-- Información adicional -->
+<section class="margen-arriba">
+  <div class="tarjeta">
+    <h4>Criterios de moderación</h4>
+    <ul>
+      <li>
+        <strong>Bloqueo automático:</strong> Trabajadores con más de 5
+        cancelaciones consecutivas
+      </li>
+      <li>
+        <strong>Revisión manual:</strong> Valoración media inferior a 2.0
+        estrellas
+      </li>
+      <li><strong>Desbloqueo:</strong> Requiere revisión del administrador</li>
+    </ul>
+  </div>
+</section>
+{% endblock %}

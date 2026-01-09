@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Administrador - JobOffers Backoffice</title>
+    <link rel="stylesheet" href="styles.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@500;700&family=Russo+One&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <div class="cabecera">
+            <div class="logo">
+                <img src="logoJoboffers.png" alt="JobOffers Logo">
+                <div>
+                    <h1>JobOffers</h1>
+                    <p class="eslogan">Cada talento cuenta</p>
+                </div>
+            </div>
+            <nav>
+                <button class="boton-menu">☰</button>
+                <ul id="navegacion">
+                    <li><a href="inicio_admin.html" class="active">Inicio</a></li>
+                    <li><a href="form.html">Nueva Oferta</a></li>
+                    <li><a href="error.html">Contacto</a></li>
+                    <li><a href="login.html">Cerrar sesión</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="contenedor">
+        <div class="panel">
+            <!-- Sidebar -->
+            <aside class="menu-lateral">
+                <h3>Administración</h3>
+                <ul>
+                    <li><a href="#dashboard" class="active">Dashboard</a></li>
+                    <li><a href="form.html">Formulario Empleo</a></li>
+                    <li><button class="btn-disabled" disabled>Gestión empresas</button></li>
+                    <li><button class="btn-disabled" disabled>Gestión trabajadores</button></li>
+                    <li><button class="btn-disabled" disabled>Candidaturas</button></li>
+                    <li><button class="btn-disabled" disabled>Estadísticas</button></li>
+                    <li><button class="btn-disabled" disabled>Configuración</button></li>
+                    <li><button class="btn-disabled" disabled>Usuarios del sistema</button></li>
+                    <li><button class="btn-disabled" disabled>Reportes</button></li>
+                    <li><button class="btn-disabled" disabled>Logs de actividad</button></li>
+                </ul>
+            </aside>
+
+            <!-- Contenido principal -->
+            <main class="contenido">
+                <h2>Panel de Administración</h2>
+
+                <!-- Estadísticas principales -->
+                <div class="estadisticas">
+                    <div class="tarjeta-estadistica">
+                        <div class="numero">156</div>
+                        <div class="texto">Ofertas activas</div>
+                    </div>
+                    <div class="tarjeta-estadistica">
+                        <div class="numero">89</div>
+                        <div class="texto">Empresas registradas</div>
+                    </div>
+                    <div class="tarjeta-estadistica">
+                        <div class="numero">1,247</div>
+                        <div class="texto">Trabajadores</div>
+                    </div>
+                    <div class="tarjeta-estadistica">
+                        <div class="numero">3,582</div>
+                        <div class="texto">Candidaturas</div>
+                    </div>
+                </div>
+
+                <!-- Ofertas recientes -->
+                <section>
+                    <h3>Ofertas de empleo recientes</h3>
+                    <div class="cuadricula cuadricula-3">
+                        <div class="tarjeta oferta-disponible">
+                            <div class="imagen-oferta">
+                                <div class="placeholder-imagen"></div>
+                            </div>
+                            <h4>Camarero/a de Sala</h4>
+                            <p><strong>Empresa:</strong> Hotel Gran Vía Plaza</p>
+                            <p><strong>Ubicación:</strong> Alicante</p>
+                            <p><strong>Salario:</strong> 1.400 - 1.800 €/mes</p>
+                            <span class="etiqueta etiqueta-exito">4 Plazas disponibles</span>
+                            <div class="pie-tarjeta">
+                                <a href="form.html" class="boton boton-principal">Editar</a>
+                                <button class="boton boton-borde" disabled>Ver detalles</button>
+                            </div>
+                        </div>
+
+                        <div class="tarjeta oferta-disponible">
+                            <div class="imagen-oferta">
+                                <div class="placeholder-imagen"></div>
+                            </div>
+                            <h4>Cocinero/a</h4>
+                            <p><strong>Empresa:</strong> Restaurante La Tradición</p>
+                            <p><strong>Ubicación:</strong> Benidorm</p>
+                            <p><strong>Salario:</strong> 1.600 - 2.200 €/mes</p>
+                            <span class="etiqueta etiqueta-exito">2 Plazas disponibles</span>
+                            <div class="pie-tarjeta">
+                                <a href="form.html" class="boton boton-principal">Editar</a>
+                                <button class="boton boton-borde" disabled>Ver detalles</button>
+                            </div>
+                        </div>
+
+                        <div class="tarjeta oferta-ocupada">
+                            <div class="imagen-oferta">
+                                <div class="placeholder-imagen"></div>
+                            </div>
+                            <h4>Personal de Limpieza</h4>
+                            <p><strong>Empresa:</strong> Hostal Costa del Sol</p>
+                            <p><strong>Ubicación:</strong> Finestrat</p>
+                            <p><strong>Salario:</strong> 1.200 - 1.400 €/mes</p>
+                            <span class="etiqueta etiqueta-alerta">Plazas ocupadas</span>
+                            <div class="pie-tarjeta">
+                                <a href="form.html" class="boton boton-principal">Editar</a>
+                                <button class="boton boton-borde" disabled>Ver detalles</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Actividad reciente -->
+                <section class="margen-arriba">
+                    <h3>Actividad reciente</h3>
+                    <div class="tarjeta">
+                        <div class="tabla-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Fecha</th>
+                                        <th>Usuario</th>
+                                        <th>Acción</th>
+                                        <th>Detalles</th>
+                                        <th>Estado</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>30/11/2025 14:32</td>
+                                        <td>Ana García</td>
+                                        <td>Nueva candidatura</td>
+                                        <td>Camarero/a</td>
+                                        <td><span class="etiqueta etiqueta-info">Pendiente</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>30/11/2025 13:15</td>
+                                        <td>Mar Marinero</td>
+                                        <td>Oferta publicada</td>
+                                        <td>Camarero/a</td>
+                                        <td><span class="etiqueta etiqueta-exito">Activa</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>30/11/2025 11:45</td>
+                                        <td>Carlos Martínez</td>
+                                        <td>Perfil actualizado</td>
+                                        <td>Actualización de CV</td>
+                                        <td><span class="etiqueta etiqueta-exito">Completado</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>30/11/2025 10:20</td>
+                                        <td>Bar Santa Rosa</td>
+                                        <td>Candidato seleccionado</td>
+                                        <td>Cocinero/a</td>
+                                        <td><span class="etiqueta etiqueta-exito">Finalizado</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>29/11/2025 18:00</td>
+                                        <td>Laura Pérez</td>
+                                        <td>Registro nuevo</td>
+                                        <td>Nuevo trabajador</td>
+                                        <td><span class="etiqueta etiqueta-info">Verificación pendiente</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <footer>
+        <div class="pie-pagina">
+            <div class="info-footer">
+                <p>&copy; 2025 JobOffers. Todos los derechos reservados.</p>
+            </div>
+            <ul class="enlaces-footer">
+                <li><a href="#privacidad">Privacidad</a></li>
+                <li><a href="#terminos">Términos de uso</a></li>
+                <li><a href="#soporte">Soporte</a></li>
+                <li><a href="#documentacion">Documentación</a></li>
+            </ul>
+            <div class="redes-sociales">
+                <a href="#" title="LinkedIn">in</a>
+                <a href="#" title="Twitter">X</a>
+                <a href="#" title="Facebook">f</a>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

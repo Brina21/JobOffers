@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario - JobOffers Backoffice</title>
+    <link rel="stylesheet" href="styles.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@500;700&family=Russo+One&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <div class="cabecera">
+            <div class="logo">
+                <img src="logoJoboffers.png" alt="JobOffers Logo">
+                <div>
+                    <h1>JobOffers</h1>
+                    <p class="eslogan">Cada talento cuenta</p>
+                </div>
+            </div>
+            <nav>
+                <ul id="mainNav">
+                    <li><a href="inicio_admin.html">Inicio</a></li>
+                    <li><a href="form.html" class="active">Nueva Oferta</a></li>
+                    <li><a href="error.html">Contacto</a></li>
+                    <li><a href="login.html">Cerrar sesión</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="contenedor contenedor-md">
+        <main>
+            <div class="flex-between mb-3">
+                <h2>Crear/Editar Oferta de Empleo</h2>
+                <div>
+                    <a href="inicio_admin.html" class="boton boton-borde">Volver al inicio admin</a> |
+                    <a href="inicio_empresa.html" class="boton boton-borde">Volver al inicio empresa</a>
+                </div>
+            </div>
+
+            <div class="tarjeta">
+                <form method="post">
+                    <section>
+                        <h3>Información básica</h3>
+
+                        <div class="campo">
+                            <label for="titulo">Título de la oferta *</label>
+                            <input type="text" id="titulo" name="titulo"
+                                placeholder="Ej: Camarero/a de Sala con experiencia" required>
+                        </div>
+
+                        <div class="cuadricula cuadricula-2">
+                            <div class="campo">
+                                <label for="empresa">Empresa *</label>
+                                <select id="empresa" name="empresa" required>
+                                    <option value="">Selecciona una empresa</option>
+                                    <option value="hotel-gran-via">Hotel Gran Vía Plaza</option>
+                                    <option value="restaurante-tradicion">Restaurante La Tradición</option>
+                                    <option value="hostal-costa">Hostal Costa del Sol</option>
+                                    <option value="cafeteria-central">Cafetería Central</option>
+                                </select>
+                            </div>
+
+                            <div class="campo">
+                                <label for="categoria">Categoría *</label>
+                                <select id="categoria" name="categoria" required>
+                                    <option value="">Selecciona una categoría</option>
+                                    <option value="sala">Servicio de Sala</option>
+                                    <option value="cocina">Cocina</option>
+                                    <option value="limpieza">Limpieza y lavandería</option>
+                                    <option value="recepcion">Recepción</option>
+                                    <option value="barra">Barra y cafetería</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="campo">
+                            <label for="descripcion">Descripción de la oferta *</label>
+                            <textarea id="descripcion" name="descripcion" rows="6"
+                                placeholder="Describe las responsabilidades del puesto, requisitos y beneficios..."
+                                required></textarea>
+                        </div>
+                    </section>
+
+                    <!-- Detalles del puesto -->
+                    <section class="mt-4">
+                        <h3>Detalles del puesto</h3>
+
+                        <div class="cuadricula cuadricula-2">
+                            <div class="campo">
+                                <label for="ubicacion">Ubicación *</label>
+                                <input type="text" id="ubicacion" name="ubicacion" placeholder="Ej: Madrid, España"
+                                    required>
+                            </div>
+
+                            <div class="campo">
+                                <label for="tipo-contrato">Tipo de contrato *</label>
+                                <select id="tipo-contrato" name="tipo-contrato" required>
+                                    <option value="">Selecciona tipo de contrato</option>
+                                    <option value="indefinido">Indefinido</option>
+                                    <option value="temporal">Fijo</option>
+                                    <option value="temporal">Temporal</option>
+                                </select>
+                            </div>
+
+                            <div class="campo">
+                                <label for="jornada">Jornada laboral *</label>
+                                <select id="jornada" name="jornada" required>
+                                    <option value="">Selecciona jornada</option>
+                                    <option value="completa">Jornada completa</option>
+                                    <option value="parcial">Jornada parcial</option>
+                                    <option value="flexible">Horario flexible</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="cuadricula cuadricula-2">
+                            <div class="campo">
+                                <label for="salario-min">Precio Hora</label>
+                                <input type="number" id="salario-min" name="salario-min" placeholder="10" min="0"
+                                    step="10">
+                            </div>
+
+                            <div class="campo">
+                                <label for="salario-max">Salario Final</label>
+                                <input type="number" id="salario-max" name="salario-max" placeholder="2000" min="0"
+                                    step="500">
+                            </div>
+                        </div>
+
+                        <div class="cuadricula cuadricula-2">
+                            <div class="campo">
+                                <label for="num-vacantes">Número de vacantes *</label>
+                                <input type="number" id="num-vacantes" name="num-vacantes" value="1" min="1" max="99"
+                                    required>
+                            </div>
+
+                            <div class="campo">
+                                <label for="fecha-limite">Fecha límite de candidatura</label>
+                                <input type="date" id="fecha-limite" name="fecha-limite">
+                                <p class="form-help">Opcional. Si no se especifica, la oferta estará activa
+                                    indefinidamente</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Requisitos -->
+                    <section class="mt-4">
+                        <h3>Requisitos y habilidades</h3>
+
+                        <div class="campo">
+                            <label for="experiencia">Experiencia requerida *</label>
+                            <textarea id="experiencia" name="experiencia" rows="4"
+                                placeholder="Ej: Mínimo 2 años en puesto similar, experiencia en atención al cliente..."
+                                required></textarea>
+                        </div>
+
+                        <div class="campo">
+                            <label for="habilidades">Habilidades y conocimientos requeridos</label>
+                            <textarea id="habilidades" name="habilidades" rows="4"
+                                placeholder="Ej: Atención al cliente, manipulación de alimentos, trabajo en equipo, preparación de bebidas..."></textarea>
+                        </div>
+
+                        <div class="campo">
+                            <label for="idiomas">Idiomas</label>
+                            <input type="text" id="idiomas" name="idiomas"
+                                placeholder="Ej: Español (nativo), Inglés (avanzado)">
+                        </div>
+                    </section>
+
+                    <!-- Información adicional -->
+                    <section class="mt-4">
+                        <h3>Información adicional</h3>
+
+                        <div class="campo">
+                            <label for="beneficios">Beneficios y ventajas</label>
+                            <textarea id="beneficios" name="beneficios" rows="4"
+                                placeholder="Ej: Seguro médico privado, teletrabajo, horario flexible, formación continua..."></textarea>
+                        </div>
+
+                        <div class="campo">
+                            <label for="contacto-email">Email de contacto *</label>
+                            <input type="email" id="contacto-email" name="contacto-email" placeholder="rrhh@empresa.com"
+                                required>
+                        </div>
+
+                        <div class="campo">
+                            <label for="contacto-tel">Teléfono de contacto</label>
+                            <input type="tel" id="contacto-tel" name="contacto-tel" placeholder="+34 600 000 000">
+                        </div>
+                    </section>
+
+                    <!-- Estado de la oferta -->
+                    <section class="mt-4">
+                        <h3>Estado de publicación</h3>
+
+                        <div class="campo">
+                            <label for="estado">Estado de la oferta *</label>
+                            <select id="estado" name="estado" required>
+                                <option value="borrador">Borrador (no visible)</option>
+                                <option value="activa" selected>Activa (publicada)</option>
+                                <option value="pausada">Pausada (temporalmente inactiva)</option>
+                                <option value="cerrada">Cerrada (plazas cubiertas)</option>
+                            </select>
+                        </div>
+
+                        <div class="campo">
+                            <label>
+                                <input type="checkbox" name="destacada"
+                                    style="width: auto; display: inline-block; margin-right: 0.5rem;">
+                                Oferta destacada (mayor visibilidad)
+                            </label>
+                        </div>
+                    </section>
+
+                    <!-- Botones de acción -->
+                    <div class="card-footer mt-4">
+                        <a href="inicio_admin.html" class="boton boton-borde">Cancelar</a>
+                        <button type="button" class="boton boton-borde">Guardar como borrador</button>
+                        <button type="submit" class="boton boton-principal">Publicar oferta</button>
+                    </div>
+
+                    <p class="form-help mt-3 text-center"><small>* Campos obligatorios</small></p>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <footer>
+        <div class="pie-pagina">
+            <div class="info-footer">
+                <p>&copy; 2025 JobOffers. Todos los derechos reservados.</p>
+            </div>
+            <ul class="enlaces-footer">
+                <li><a href="#privacidad">Privacidad</a></li>
+                <li><a href="#terminos">Términos de uso</a></li>
+                <li><a href="#soporte">Soporte</a></li>
+            </ul>
+        </div>
+    </footer>
+</body>
+
+</html>

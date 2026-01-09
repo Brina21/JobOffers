@@ -1,0 +1,232 @@
+{# UD6.8 - Template Reportes y Estadísticas (Administrador) #} {% extends
+'core/base_admin.html' %} {% block title %}Reportes y Estadísticas - JobOffers{%endblock %}
+
+{% block content %}
+<h2>Reportes y Estadísticas</h2>
+
+<!-- Estadísticas generales -->
+<section>
+  <h3>Resumen general</h3>
+  <div class="estadisticas">
+    <div class="tarjeta-estadistica">
+      <div class="numero">{{ usuarios_mes }}</div>
+      <div class="texto">Nuevos usuarios (30 días)</div>
+    </div>
+    <div class="tarjeta-estadistica">
+      <div class="numero">
+        {% for item in ofertas_por_estado %} {% if item.estado == 'Abierta' %}{{
+        item.total }}{% endif %} {% empty %}0{% endfor %}
+      </div>
+      <div class="texto">Ofertas abiertas</div>
+    </div>
+    <div class="tarjeta-estadistica">
+      <div class="numero">
+        {% for item in inscripciones_por_estado %} {% if item.estado ==
+        'Pendiente' %}{{ item.total }}{% endif %} {% empty %}0{% endfor %}
+      </div>
+      <div class="texto">Inscripciones pendientes</div>
+    </div>
+    <div class="tarjeta-estadistica">
+      <div class="numero">
+        {% for item in inscripciones_por_estado %} {% if item.estado ==
+        'Aceptada' %}{{ item.total }}{% endif %} {% empty %}0{% endfor %}
+      </div>
+      <div class="texto">Inscripciones aceptadas</div>
+    </div>
+  </div>
+</section>
+
+<!-- Ofertas por categoría -->
+<section class="margen-arriba">
+  <h3>Ofertas por categoría</h3>
+  <div class="tarjeta">
+    {% if ofertas_por_categoria %}
+    <div class="tabla-responsive">
+      <table>
+        <thead>
+          <tr>
+            <th>Categoría</th>
+            <th>Total ofertas</th>
+            <th>Porcentaje</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for categoria in ofertas_por_categoria %}
+          <tr>
+            <td><strong>{{ categoria.nombre }}</strong></td>
+            <td>{{ categoria.total_ofertas }}</td>
+            <td>
+              {% widthratio categoria.total_ofertas
+              ofertas_por_categoria.0.total_ofertas 100 %}%
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <p>No hay datos de categorías disponibles.</p>
+    {% endif %}
+  </div>
+</section>
+
+<!-- Empresas más activas -->
+<section class="margen-arriba">
+  <h3>Top 10 Empresas más activas</h3>
+  <div class="tarjeta">
+    {% if empresas_activas %}
+    <div class="tabla-responsive">
+      <table>
+        <thead>
+          <tr>
+            <th>Ranking</th>
+            <th>Empresa</th>
+            <th>Email</th>
+            <th>Ciudad</th>
+            <th>Total ofertas</th>
+            <th>Valoración</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for empresa in empresas_activas %}
+          <tr>
+            <td><strong>#{{ forloop.counter }}</strong></td>
+            <td>{{ empresa.nombre_empresa }}</td>
+            <td>{{ empresa.id_usuario.email }}</td>
+            <td>{{ empresa.ciudad|default:"Sin ciudad" }}</td>
+            <td>
+              <span class="etiqueta etiqueta-exito"
+                >{{ empresa.total_ofertas }}</span
+              >
+            </td>
+            <td>⭐ {{ empresa.valoracion_media|floatformat:1 }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <p>No hay datos de empresas disponibles.</p>
+    {% endif %}
+  </div>
+</section>
+
+<!-- Trabajadores top -->
+<section class="margen-arriba">
+  <h3>Top 10 Trabajadores mejor valorados</h3>
+  <div class="tarjeta">
+    {% if trabajadores_top %}
+    <div class="tabla-responsive">
+      <table>
+        <thead>
+          <tr>
+            <th>Ranking</th>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Ciudad</th>
+            <th>Valoración media</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for trabajador in trabajadores_top %}
+          <tr>
+            <td><strong>#{{ forloop.counter }}</strong></td>
+            <td>
+              {{ trabajador.id_usuario.nombre }} {{
+              trabajador.id_usuario.apellidos }}
+            </td>
+            <td>{{ trabajador.id_usuario.email }}</td>
+            <td>{{ trabajador.ciudad|default:"Sin ciudad" }}</td>
+            <td>
+              <span class="etiqueta etiqueta-exito"
+                >⭐ {{ trabajador.valoracion_media|floatformat:1 }}</span
+              >
+            </td>
+            <td>
+              {% if trabajador.bloqueado %}
+              <span class="etiqueta etiqueta-error">Bloqueado</span>
+              {% else %}
+              <span class="etiqueta etiqueta-exito">Activo</span>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <p>No hay datos de trabajadores disponibles.</p>
+    {% endif %}
+  </div>
+</section>
+
+<!-- Distribución de estados -->
+<section class="margen-arriba">
+  <div class="cuadricula cuadricula-2">
+    <!-- Ofertas por estado -->
+    <div class="tarjeta">
+      <h4>Ofertas por estado</h4>
+      <div class="tabla-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Estado</th>
+              <th>Cantidad</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in ofertas_por_estado %}
+            <tr>
+              <td>{{ item.estado }}</td>
+              <td>
+                <span class="etiqueta etiqueta-info">{{ item.total }}</span>
+              </td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="2">No hay datos disponibles</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Inscripciones por estado -->
+    <div class="tarjeta">
+      <h4>Inscripciones por estado</h4>
+      <div class="tabla-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Estado</th>
+              <th>Cantidad</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in inscripciones_por_estado %}
+            <tr>
+              <td>{{ item.estado }}</td>
+              <td>
+                {% if item.estado == 'Pendiente' %}
+                <span class="etiqueta etiqueta-alerta">{{ item.total }}</span>
+                {% elif item.estado == 'Aceptada' %}
+                <span class="etiqueta etiqueta-exito">{{ item.total }}</span>
+                {% else %}
+                <span class="etiqueta etiqueta-error">{{ item.total }}</span>
+                {% endif %}
+              </td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="2">No hay datos disponibles</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

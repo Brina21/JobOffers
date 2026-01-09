@@ -1,0 +1,89 @@
+{# UD6.8 - Template Mis Candidaturas (Trabajador) #}
+{% extends 'jobs/base_trabajador.html' %}
+
+{% block title %}Mis Candidaturas - JobOffers{% endblock %}
+
+{% block content %}
+<h2>Mis Candidaturas</h2>
+
+<!-- Filtros -->
+<div class="tarjeta margen-inferior">
+    <form method="get" class="formulario-filtros">
+        <div class="flex-between">
+            <div class="campo">
+                <select name="estado">
+                    <option value="">Todos los estados</option>
+                    {% for value, label in estados %}
+                        <option value="{{ value }}" {% if estado_filtro == value %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="boton boton-principal">Filtrar</button>
+            <a href="{% url 'jobs:trabajador_mis_candidaturas' %}" class="boton boton-borde">Limpiar</a>
+        </div>
+    </form>
+</div>
+
+<!-- Lista de candidaturas -->
+{% if page_obj %}
+<div class="tarjeta">
+    <div class="tabla-responsive">
+        <table>
+            <thead>
+                <tr>
+                    <th>Oferta</th>
+                    <th>Empresa</th>
+                    <th>Categoría</th>
+                    <th>Fecha candidatura</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for candidatura in page_obj %}
+                <tr>
+                    <td><strong>{{ candidatura.oferta.titulo }}</strong></td>
+                    <td>{{ candidatura.oferta.empresa.nombre_empresa }}</td>
+                    <td>{{ candidatura.oferta.categoria.nombre }}</td>
+                    <td>{{ candidatura.fecha_inscripcion|date:"d/m/Y H:i" }}</td>
+                    <td>
+                        {% if candidatura.estado == 'Pendiente' %}
+                            <span class="etiqueta etiqueta-alerta">En revisión</span>
+                        {% elif candidatura.estado == 'Aceptada' %}
+                            <span class="etiqueta etiqueta-exito">{{ candidatura.estado }}</span>
+                        {% else %}
+                            <span class="etiqueta etiqueta-error">{{ candidatura.estado }}</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'jobs:trabajador_oferta_detalle' candidatura.oferta.id %}" class="boton boton-principal" style="padding: 0.25rem 0.75rem; font-size: 0.87rem;">Ver oferta</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <!-- Paginación -->
+    {% if page_obj.has_other_pages %}
+    <div class="paginacion margen-arriba">
+        {% if page_obj.has_previous %}
+            <a href="?page=1{% if estado_filtro %}&estado={{ estado_filtro }}{% endif %}" class="boton boton-borde">Primera</a>
+            <a href="?page={{ page_obj.previous_page_number }}{% if estado_filtro %}&estado={{ estado_filtro }}{% endif %}" class="boton boton-borde">Anterior</a>
+        {% endif %}
+        
+        <span class="info-pagina">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+        
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}{% if estado_filtro %}&estado={{ estado_filtro }}{% endif %}" class="boton boton-borde">Siguiente</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}{% if estado_filtro %}&estado={{ estado_filtro }}{% endif %}" class="boton boton-borde">Última</a>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+{% else %}
+<div class="tarjeta">
+    <p>No tienes candidaturas registradas. <a href="{% url 'jobs:trabajador_explorar_ofertas' %}">Explorar ofertas disponibles</a></p>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,173 @@
+{# UD6.8 - Template Detalle Oferta (Trabajador) #} {% extends
+'jobs/base_trabajador.html' %} {% block title %}{{ oferta.titulo }} - JobOffers{% endblock %}
+
+{% block content %}
+<div class="flex-between mb-3">
+  <h2>{{ oferta.titulo }}</h2>
+  <a
+    href="{% url 'jobs:trabajador_explorar_ofertas' %}"
+    class="boton boton-borde"
+    >Volver a ofertas</a
+  >
+</div>
+
+<div class="cuadricula cuadricula-2">
+  <!-- Información principal -->
+  <div class="tarjeta">
+    <h3>Información de la oferta</h3>
+
+    <p><strong>Empresa:</strong> {{ oferta.empresa.nombre_empresa }}</p>
+    <p><strong>Categoría:</strong> {{ oferta.categoria.nombre }}</p>
+    <p>
+      <strong>Ubicación:</strong> {{ oferta.empresa.ciudad|default:"No
+      especificada" }}
+    </p>
+
+    {% if oferta.precio_hora %}
+    <p><strong>Precio por hora:</strong> {{ oferta.precio_hora }}€/hora</p>
+    {% endif %} {% if oferta.total %}
+    <p><strong>Pago total:</strong> {{ oferta.total }}€</p>
+    {% endif %} {% if oferta.tipo_contrato %}
+    <p><strong>Tipo de contrato:</strong> {{ oferta.tipo_contrato }}</p>
+    {% endif %} {% if oferta.jornada %}
+    <p><strong>Jornada:</strong> {{ oferta.jornada }}</p>
+    {% endif %} {% if oferta.horario %}
+    <p><strong>Horario:</strong> {{ oferta.horario }}</p>
+    {% endif %}
+
+    <p>
+      <strong>Plazas disponibles:</strong> {{ oferta.plazas_disponibles }} de {{
+      oferta.plazas_totales }}
+    </p>
+    <p>
+      <strong>Publicada:</strong> {{ oferta.fecha_publicacion|date:"d/m/Y" }}
+    </p>
+
+    {% if oferta.fecha_evento %}
+    <p>
+      <strong>Fecha del evento:</strong> {{ oferta.fecha_evento|date:"d/m/Y" }}
+    </p>
+    {% endif %} {% if oferta.fecha_cierre %}
+    <p>
+      <strong>Cierre de candidaturas:</strong> {{
+      oferta.fecha_cierre|date:"d/m/Y" }}
+    </p>
+    {% endif %}
+
+    <div class="margen-arriba">
+      {% if oferta.urgente %}
+      <span class="etiqueta etiqueta-error">Urgente</span>
+      {% endif %}
+      <span class="etiqueta etiqueta-exito">{{ oferta.estado }}</span>
+    </div>
+  </div>
+
+  <!-- Acción de postulación -->
+  <div class="tarjeta">
+    <h3>Estado de candidatura</h3>
+
+    {% if ya_postulado %}
+    <div
+      style="
+        padding: 2rem;
+        text-align: center;
+        background: #f0fdf4;
+        border-radius: 8px;
+        margin: 1rem 0;
+      "
+    >
+      <p style="font-size: 1.2rem; margin-bottom: 1rem">
+        ✅ Ya te has postulado a esta oferta
+      </p>
+      <p>
+        <strong>Estado:</strong>
+        {% if ya_postulado.estado == 'Pendiente' %}
+        <span class="etiqueta etiqueta-alerta">En revisión</span>
+        {% elif ya_postulado.estado == 'Aceptada' %}
+        <span class="etiqueta etiqueta-exito">Aceptada</span>
+        {% else %}
+        <span class="etiqueta etiqueta-error">{{ ya_postulado.estado }}</span>
+        {% endif %}
+      </p>
+      <p>
+        <strong>Fecha:</strong> {{ ya_postulado.fecha_inscripcion|date:"d/m/Y
+        H:i" }}
+      </p>
+      <a
+        href="{% url 'jobs:trabajador_mis_candidaturas' %}"
+        class="boton boton-principal margen-arriba"
+        >Ver mis candidaturas</a
+      >
+    </div>
+    {% else %} {% if oferta.estado == 'Abierta' and oferta.plazas_disponibles >
+    0 %}
+    <div
+      style="
+        padding: 2rem;
+        text-align: center;
+        background: #eff6ff;
+        border-radius: 8px;
+        margin: 1rem 0;
+      "
+    >
+      <p style="font-size: 1.1rem; margin-bottom: 1.5rem">
+        ¿Estás interesado en esta oferta?
+      </p>
+      <a
+        href="{% url 'jobs:trabajador_postular' oferta.id %}"
+        class="boton boton-principal"
+        style="font-size: 1.1rem; padding: 0.75rem 2rem"
+      >
+        Postularme ahora
+      </a>
+    </div>
+    {% else %}
+    <div
+      style="
+        padding: 2rem;
+        text-align: center;
+        background: #fef2f2;
+        border-radius: 8px;
+        margin: 1rem 0;
+      "
+    >
+      <p style="font-size: 1.1rem; color: #dc2626">
+        Esta oferta ya no está disponible
+      </p>
+    </div>
+    {% endif %} {% endif %}
+
+    <div class="margen-arriba">
+      <h4>Datos de contacto de la empresa</h4>
+      <p><strong>Nombre:</strong> {{ oferta.empresa.nombre_empresa }}</p>
+      <p><strong>Email:</strong> {{ oferta.empresa.id_usuario.email }}</p>
+      {% if oferta.empresa.id_usuario.telefono %}
+      <p><strong>Teléfono:</strong> {{ oferta.empresa.id_usuario.telefono }}</p>
+      {% endif %}
+      <p>
+        <strong>Dirección:</strong> {{ oferta.empresa.calle }}, {{
+        oferta.empresa.ciudad }}
+      </p>
+      {% if oferta.empresa.tipo_establecimiento %}
+      <p><strong>Tipo:</strong> {{ oferta.empresa.tipo_establecimiento }}</p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<!-- Descripción completa -->
+<div class="tarjeta margen-arriba">
+  <h3>Descripción del puesto</h3>
+  <p style="white-space: pre-line">{{ oferta.descripcion }}</p>
+</div>
+
+{% if oferta.empresa.descripcion %}
+<div class="tarjeta margen-arriba">
+  <h3>Sobre la empresa</h3>
+  <p>{{ oferta.empresa.descripcion }}</p>
+  <p>
+    <strong>Valoración:</strong> ⭐ {{
+    oferta.empresa.valoracion_media|floatformat:1 }}/5.0
+  </p>
+</div>
+{% endif %} {% endblock %}

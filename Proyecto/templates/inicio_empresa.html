@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Empresa - JobOffers Backoffice</title>
+    <link rel="stylesheet" href="styles.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@500;700&family=Russo+One&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <div class="cabecera">
+            <div class="logo">
+                <img src="logoJoboffers.png" alt="JobOffers Logo">
+                <div>
+                    <h1>JobOffers</h1>
+                    <p class="eslogan">Cada talento cuenta</p>
+                </div>
+            </div>
+            <nav>
+                <ul id="mainNav">
+                    <li><a href="inicio_empresa.html" class="active">Inicio</a></li>
+                    <li><a href="form.html">Nueva Oferta</a></li>
+                    <li><a href="error.html">Contacto</a></li>
+                    <li><a href="login.html">Cerrar sesión</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="contenedor">
+        <div class="panel">
+            <!-- Sidebar lateral -->
+            <aside class="menu-lateral">
+                <h3>Panel Empresa</h3>
+                <ul>
+                    <li><a href="#dashboard" class="active">Dashboard</a></li>
+                    <li><a href="form.html">Mis ofertas</a></li>
+                    <li><button class="boton-desactivado" disabled>Publicar oferta</button></li>
+                    <li><button class="boton-desactivado" disabled>Candidaturas recibidas</button></li>
+                    <li><button class="boton-desactivado" disabled>Candidatos favoritos</button></li>
+                    <li><button class="boton-desactivado" disabled>Mensajes</button></li>
+                    <li><button class="boton-desactivado" disabled>Perfil de empresa</button></li>
+                    <li><button class="boton-desactivado" disabled>Facturación</button></li>
+                </ul>
+            </aside>
+
+            <!-- Contenido principal -->
+            <main class="contenido">
+                <h2>Panel de Empresa - Nombre empresa</h2>
+
+                <!-- Estadísticas de la empresa -->
+                <div class="estadisticas">
+                    <div class="tarjeta-estadistica">
+                        <div class="numero">12</div>
+                        <div class="texto">Ofertas publicadas</div>
+                    </div>
+                    <div class="tarjeta-estadistica">
+                        <div class="numero">287</div>
+                        <div class="texto">Candidaturas recibidas</div>
+                    </div>
+                    <div class="tarjeta-estadistica">
+                        <div class="numero">45</div>
+                        <div class="texto">Candidatos en proceso</div>
+                    </div>
+                    <div class="tarjeta-estadistica">
+                        <div class="numero">8</div>
+                        <div class="texto">Contrataciones realizadas</div>
+                    </div>
+                </div>
+
+                <!-- Mis ofertas activas -->
+                <section>
+                    <div class="flex-between mb-3">
+                        <h3>Mis ofertas activas</h3>
+                        <a href="form.html" class="boton boton-secundario">+ Nueva oferta</a>
+                    </div>
+                    <div class="cuadricula cuadricula-2">
+                        <div class="tarjeta oferta-disponible available">
+                            <div class="imagen-oferta">
+                                <div class="placeholder-imagen"></div>
+                            </div>
+                            <h4>Camarero/a de Sala</h4>
+                            <p><strong>Ubicación:</strong> Madrid (Presencial)</p>
+                            <p><strong>Salario:</strong> 1.400 - 1.800 €/mes + propinas</p>
+                            <p><strong>Candidaturas:</strong> 56</p>
+                            <span class="etiqueta etiqueta-exito">Activa</span>
+                            <div class="pie-tarjeta">
+                                <button class="boton boton-principal" disabled>Ver candidatos</button>
+                                <a href="form.html" class="boton boton-borde">Editar</a>
+                            </div>
+                        </div>
+
+                        <div class="tarjeta oferta-disponible available">
+                            <div class="imagen-oferta">
+                                <div class="placeholder-imagen"></div>
+                            </div>
+                            <h4>Recepcionista de Hotel</h4>
+                            <p><strong>Ubicación:</strong> Madrid (Presencial)</p>
+                            <p><strong>Salario:</strong> 1.500 - 1.900 €/mes</p>
+                            <p><strong>Candidaturas:</strong> 32</p>
+                            <span class="etiqueta etiqueta-exito">Activa</span>
+                            <div class="pie-tarjeta">
+                                <button class="boton boton-principal" disabled>Ver candidatos</button>
+                                <a href="form.html" class="boton boton-borde">Editar</a>
+                            </div>
+                        </div>
+
+                        <div class="tarjeta oferta-disponible available">
+                            <div class="imagen-oferta">
+                                <div class="placeholder-imagen"></div>
+                            </div>
+                            <h4>Ayudante de Cocina</h4>
+                            <p><strong>Ubicación:</strong> Madrid (Presencial)</p>
+                            <p><strong>Salario:</strong> 1.300 - 1.600 €/mes</p>
+                            <p><strong>Candidaturas:</strong> 28</p>
+                            <span class="etiqueta etiqueta-exito">Activa</span>
+                            <div class="pie-tarjeta">
+                                <button class="boton boton-principal" disabled>Ver candidatos</button>
+                                <a href="form.html" class="boton boton-borde">Editar</a>
+                            </div>
+                        </div>
+
+                        <div class="tarjeta oferta-ocupada occupied">
+                            <div class="imagen-oferta">
+                                <div class="placeholder-imagen"></div>
+                            </div>
+                            <h4>Personal de Limpieza</h4>
+                            <p><strong>Ubicación:</strong> Madrid (Presencial)</p>
+                            <p><strong>Salario:</strong> 1.200 - 1.400 €/mes</p>
+                            <p><strong>Candidaturas:</strong> 41</p>
+                            <span class="etiqueta etiqueta-alerta">Plazas cubiertas</span>
+                            <div class="pie-tarjeta">
+                                <button class="boton boton-borde" disabled>Ver detalles</button>
+                                <button class="boton boton-borde" disabled>Archivar</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Candidaturas recientes -->
+                <section class="margen-arriba">
+                    <h3>Candidaturas recientes</h3>
+                    <div class="tarjeta">
+                        <div class="tabla-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Candidato</th>
+                                        <th>Oferta</th>
+                                        <th>Fecha</th>
+                                        <th>Estado</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>María Rodríguez López</td>
+                                        <td>Camarero/a de Sala</td>
+                                        <td>30/11/2025</td>
+                                        <td><span class="etiqueta etiqueta-info">Nueva</span></td>
+                                        <td>
+                                            <button class="boton boton-principal"
+                                                style="padding: 0.25rem 0.75rem; font-size: 0.875rem;" disabled>Ver
+                                                perfil</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Javier Martínez Ruiz</td>
+                                        <td>Recepcionista de Hotel</td>
+                                        <td>30/11/2025</td>
+                                        <td><span class="etiqueta etiqueta-alerta">En revisión</span></td>
+                                        <td>
+                                            <button class="boton boton-principal"
+                                                style="padding: 0.25rem 0.75rem; font-size: 0.875rem;" disabled>Ver
+                                                perfil</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Carmen Pérez Sánchez</td>
+                                        <td>Ayudante de Cocina</td>
+                                        <td>29/11/2025</td>
+                                        <td><span class="etiqueta etiqueta-info">Nueva</span></td>
+                                        <td>
+                                            <button class="boton boton-principal"
+                                                style="padding: 0.25rem 0.75rem; font-size: 0.875rem;" disabled>Ver
+                                                perfil</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Antonio García Torres</td>
+                                        <td>Camarero/a de Sala</td>
+                                        <td>29/11/2025</td>
+                                        <td><span class="etiqueta etiqueta-exito">Preseleccionado</span></td>
+                                        <td>
+                                            <button class="boton boton-principal"
+                                                style="padding: 0.25rem 0.75rem; font-size: 0.875rem;" disabled>Ver
+                                                perfil</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Isabel Fernández Mora</td>
+                                        <td>Personal de Limpieza</td>
+                                        <td>28/11/2025</td>
+                                        <td><span class="etiqueta etiqueta-exito">Seleccionado</span></td>
+                                        <td>
+                                            <button class="boton boton-principal"
+                                                style="padding: 0.25rem 0.75rem; font-size: 0.875rem;" disabled>Ver
+                                                perfil</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <footer>
+        <div class="pie-pagina">
+            <div class="info-footer">
+                <p>&copy; 2025 JobOffers. Todos los derechos reservados.</p>
+                <p><small>Panel de Empresa</small></p>
+            </div>
+            <ul class="enlaces-footer">
+                <li><a href="#privacidad">Privacidad</a></li>
+                <li><a href="#terminos">Términos de uso</a></li>
+                <li><a href="#soporte">Soporte</a></li>
+                <li><a href="#ayuda">Centro de ayuda</a></li>
+            </ul>
+            <div class="redes-sociales">
+                <a href="#" title="LinkedIn">in</a>
+                <a href="#" title="Twitter">X</a>
+                <a href="#" title="Facebook">f</a>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

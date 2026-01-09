@@ -1,0 +1,92 @@
+{# UD6.8 - Template Lista de Ofertas (Empresa) #}
+{% extends 'jobs/base_empresa.html' %}
+
+{% block title %}Mis Ofertas - JobOffers{% endblock %}
+
+{% block content %}
+<h2>Mis Ofertas</h2>
+
+<!-- Filtros -->
+<div class="tarjeta margen-inferior">
+    <form method="get" class="formulario-filtros">
+        <div class="flex-between">
+            <div class="campo">
+                <input type="text" name="q" placeholder="Buscar por título o descripción..." value="{{ busqueda }}">
+            </div>
+            <div class="campo">
+                <select name="estado">
+                    <option value="">Todos los estados</option>
+                    {% for value, label in estados %}
+                        <option value="{{ value }}" {% if estado_filtro == value %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="boton boton-principal">Filtrar</button>
+            <a href="{% url 'jobs:empresa_mis_ofertas' %}" class="boton boton-borde">Limpiar</a>
+            <a href="{% url 'jobs:empresa_crear_oferta' %}" class="boton boton-secundario">+ Nueva oferta</a>
+        </div>
+    </form>
+</div>
+
+<!-- Grid de ofertas -->
+{% if page_obj %}
+<div class="cuadricula cuadricula-2">
+    {% for oferta in page_obj %}
+    <div class="tarjeta {% if oferta.estado == 'Abierta' %}oferta-disponible{% else %}oferta-ocupada{% endif %} available">
+        <div class="imagen-oferta">
+            <div class="placeholder-imagen"></div>
+        </div>
+        <h4>{{ oferta.titulo|truncatewords:7 }}</h4>
+        <p><strong>Categoría:</strong> {{ oferta.categoria.nombre }}</p>
+        <p><strong>Salario:</strong> 
+            {% if oferta.precio_hora %}{{ oferta.precio_hora }}€/hora{% elif oferta.total %}{{ oferta.total }}€{% else %}A convenir{% endif %}
+        </p>
+        <p><strong>Candidaturas:</strong> 
+            {% with total=oferta.inscripciones.count %}{{ total }}{% endwith %}
+        </p>
+        <p><strong>Plazas:</strong> {{ oferta.plazas_disponibles }}/{{ oferta.plazas_totales }}</p>
+        <p><strong>Publicada:</strong> {{ oferta.fecha_publicacion|date:"d/m/Y" }}</p>
+        
+        {% if oferta.estado == 'Abierta' %}
+            <span class="etiqueta etiqueta-exito">{{ oferta.estado }}</span>
+        {% elif oferta.estado == 'Cerrada' %}
+            <span class="etiqueta etiqueta-alerta">{{ oferta.estado }}</span>
+        {% else %}
+            <span class="etiqueta etiqueta-info">{{ oferta.estado }}</span>
+        {% endif %}
+        
+        {% if oferta.urgente %}
+            <span class="etiqueta etiqueta-error">Urgente</span>
+        {% endif %}
+        
+        <div class="pie-tarjeta">
+            <a href="{% url 'jobs:empresa_oferta_detalle' oferta.id %}" class="boton boton-principal">Ver candidatos</a>
+            <a href="{% url 'jobs:empresa_editar_oferta' oferta.id %}" class="boton boton-borde">Editar</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Paginación -->
+{% if page_obj.has_other_pages %}
+<div class="paginacion margen-arriba">
+    {% if page_obj.has_previous %}
+        <a href="?page=1{% if busqueda %}&q={{ busqueda }}{% endif %}{% if estado_filtro %}&estado={{ estado_filtro }}{% endif %}" class="boton boton-borde">Primera</a>
+        <a href="?page={{ page_obj.previous_page_number }}{% if busqueda %}&q={{ busqueda }}{% endif %}{% if estado_filtro %}&estado={{ estado_filtro }}{% endif %}" class="boton boton-borde">Anterior</a>
+    {% endif %}
+    
+    <span class="info-pagina">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+    
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}{% if busqueda %}&q={{ busqueda }}{% endif %}{% if estado_filtro %}&estado={{ estado_filtro }}{% endif %}" class="boton boton-borde">Siguiente</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}{% if busqueda %}&q={{ busqueda }}{% endif %}{% if estado_filtro %}&estado={{ estado_filtro }}{% endif %}" class="boton boton-borde">Última</a>
+    {% endif %}
+</div>
+{% endif %}
+
+{% else %}
+<div class="tarjeta">
+    <p>No tienes ofertas publicadas. <a href="{% url 'jobs:empresa_crear_oferta' %}">Crear primera oferta</a></p>
+</div>
+{% endif %}
+{% endblock %}
